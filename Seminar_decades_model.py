@@ -78,6 +78,7 @@ for i in range(10):
 
             # Save the model for the current slot
             model.save(slot_model_path)
+            print(f"{slot_model_path} saved")
 
 # for i in range(10):
 #     slots = [(year, year + 10) for year in range(1800 + i, 2011, 10)]
