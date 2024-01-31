@@ -38,9 +38,9 @@ for i in range(10):
     if not any(os.scandir(slot_path)):
         model = Word2Vec(window=5, min_count=5, workers=4)
 
-    slots = [(year, year + 10) for year in range(1800 + i, 2011, 10)]
+    slots = [(year, year + 10) for year in range(1810 + i, 2011, 10)]
     if i != 0:
-        first_slot = (1800, 1800 + i)
+        first_slot = (1810, 1810 + i)
         slots.insert(0, first_slot)
     print(slots)
 
