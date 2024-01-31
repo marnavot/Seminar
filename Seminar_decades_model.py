@@ -1,6 +1,7 @@
 from gensim.models import Word2Vec
 import os
 import chardet
+import string
 
 # import Seminar_year_graphs as gr
 # Path to the directory containing your text files
@@ -53,6 +54,7 @@ for i in range(10):
             model = Word2Vec.load(slot_model_path)
             continue
         else:
+            print(f"starting model of slot {slot}")
             slot_files = [os.path.join(corpus_path, file) for file in os.listdir(corpus_path) if
                             any(f"_{str(year)}_" in file for year in range(*slot))]
 
@@ -76,7 +78,7 @@ for i in range(10):
 
             # Save the model for the current slot
             model.save(slot_model_path)
-            print(slot_model_path)
+            print(f"{slot_model_path} saved)
 
 # for i in range(10):
 #     slots = [(year, year + 10) for year in range(1800 + i, 2011, 10)]
