@@ -47,36 +47,36 @@ for i in range(10):
 
     for slot in slots:
         slot_model_path = os.path.join(slot_path, f'{slot[0]}-{slot[1] - 1}_model.model')
-            if os.path.exists(slot_model_path):
-                print(f"model of {slot_model_path} exists")
-                last_available_year = slot[0]
-                model = Word2Vec.load(slot_model_path)
-                continue
+        if os.path.exists(slot_model_path):
+            print(f"model of {slot_model_path} exists")
+            last_available_year = slot[0]
+            model = Word2Vec.load(slot_model_path)
+            continue
+        else:
+            slot_files = [os.path.join(corpus_path, file) for file in os.listdir(corpus_path) if
+                            any(f"_{str(year)}_" in file for year in range(*slot))]
+
+            # Read the files for the current year
+            sentences = [read_file(file) for file in slot_files if os.path.isfile(file)]
+
+            # Build or update the vocabulary
+            if model.wv.key_to_index:
+                model.build_vocab(sentences, update=True)
             else:
-                slot_files = [os.path.join(corpus_path, file) for file in os.listdir(corpus_path) if
-                              any(f"_{str(year)}_" in file for year in range(*slot))]
+                model.build_vocab(sentences)
 
-                # Read the files for the current year
-                sentences = [read_file(file) for file in slot_files if os.path.isfile(file)]
+            # Check if the model has an existing vocabulary
+            if not model.wv.key_to_index:
+                # If the model has no prior vocabulary, continue to the next slot
+                print(f"{slot[0]}-{slot[1]}: no vocab")
+                continue
 
-                # Build or update the vocabulary
-                if model.wv.key_to_index:
-                    model.build_vocab(sentences, update=True)
-                else:
-                    model.build_vocab(sentences)
+            # Train the model for the current slot
+            model.train(sentences, total_examples=model.corpus_count, epochs=1)
 
-                # Check if the model has an existing vocabulary
-                if not model.wv.key_to_index:
-                    # If the model has no prior vocabulary, continue to the next slot
-                    print(f"{slot[0]}-{slot[1]}: no vocab")
-                    continue
-
-                # Train the model for the current slot
-                model.train(sentences, total_examples=model.corpus_count, epochs=1)
-
-                # Save the model for the current slot
-                model.save(slot_model_path)
-                print(slot_model_path)
+            # Save the model for the current slot
+            model.save(slot_model_path)
+            print(slot_model_path)
 
 # for i in range(10):
 #     slots = [(year, year + 10) for year in range(1800 + i, 2011, 10)]
