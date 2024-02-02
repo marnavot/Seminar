@@ -108,5 +108,5 @@ plot_correlations(year_models_path, plot_name="year_models_correlations")
 #     models_path = f"/cs/labs/oabend/tomer.navot/decade_models/{i}/"
 #     evaluate_models(models_path)
 
-evaluate_model("/cs/labs/oabend/tomer.navot/decade_models/1/")
+evaluate_models("/cs/labs/oabend/tomer.navot/decade_models/1/")
 
