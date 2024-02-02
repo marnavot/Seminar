@@ -9,7 +9,7 @@ import os
 #     return Word2Vec.load(model_path)
 
 def all_folder_models(folder_path):
-    files = list(os.listdir(folder_path)).sort()
+    files = sorted(list(os.listdir(folder_path)))
     return files
 
 
