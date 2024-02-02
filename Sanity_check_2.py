@@ -94,7 +94,7 @@ def plot_correlations(folder_path, plot_name):
     plt.ylabel('Correlation Coefficient')
     plt.title('Word Similarity Correlations Over Time')
     plt.legend()
-    plt.savefig(f'//cs/labs/oabend/tomer.navot/plots/{plot_name}.png')
+    plt.savefig(f'/cs/labs/oabend/tomer.navot/plots/{plot_name}.png')
     plt.show()
 
 
