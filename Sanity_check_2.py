@@ -12,11 +12,6 @@ def all_folder_models(folder_path):
     files = list(os.listdir(folder_path)).sort()
     return files
 
-year_models_list = all_folder_models('/cs/labs/oabend/tomer.navot/year_models/')
-
-for year_model in year_models_list[:2]:
-    model = Word2Vec.load(year_model)
-
 
 def evaluate_model(path):
     model = Word2Vec.load(path)
@@ -34,6 +29,9 @@ def evaluate_models(folder_path):
         correlations.append(correlation)
     return correlations
 
+year_models_path = "/cs/labs/oabend/tomer.navot/year_models/"
+year_correlations = evaluate_models(year_models_path)
+print(year_correlations)
 
 # Evaluate models
 # def evaluate_models(model):
