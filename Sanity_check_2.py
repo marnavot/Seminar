@@ -65,6 +65,8 @@ def evaluate_model(path):
     model = Word2Vec.load(path)
     spearman_result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))[1].statistic
     pearson_result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))[0].statistic
+    print(f"Pearson correlation of {path}: {pearson_result}")
+    print(f"Spearman correlation of {path}: {spearman_result}")
     return spearman_result, pearson_result
 
 
@@ -101,4 +103,8 @@ def plot_correlations(folder_path, plot_name):
 # Example usage:
 year_models_path = "/cs/labs/oabend/tomer.navot/year_models/"
 plot_correlations(year_models_path, plot_name="year_models_correlations")
+
+for i in range(10):
+    models_path = f"/cs/labs/oabend/tomer.navot/decade_models/{i}/"
+    plot_correlations(models_path, f"decade_models_bin_{i}_correlations")
 
