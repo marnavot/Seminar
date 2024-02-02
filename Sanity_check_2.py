@@ -12,9 +12,9 @@ def evaluate_model(path):
     model = Word2Vec.load(path)
     result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))
     print(result)
-    # correlation = result['spearmanr']
-    # print(f"Correlation of {path}: {correlation}")
-    # return correlation
+    correlation = result[0].statistic
+    print(f"Pearson correlation of {path}: {correlation}")
+    return correlation
 
 evaluate_model('/cs/labs/oabend/tomer.navot/year_models/1991_model.model')
 
