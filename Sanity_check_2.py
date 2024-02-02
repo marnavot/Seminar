@@ -11,8 +11,9 @@ def all_folder_models(folder_path):
 def evaluate_model(path):
     model = Word2Vec.load(path)
     result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))
-    correlation = result['spearmanr']
-    print(f"Correlation of {path}: {correlation}")
+    print(result)
+    # correlation = result['spearmanr']
+    # print(f"Correlation of {path}: {correlation}")
     return correlation
 
 def evaluate_models(folder_path):
