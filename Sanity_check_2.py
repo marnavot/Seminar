@@ -11,25 +11,27 @@ def all_folder_models(folder_path):
 def evaluate_model(path):
     model = Word2Vec.load(path)
     result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))
-    print(result)
-    correlation = result[0].statistic
-    print(f"Pearson correlation of {path}: {correlation}")
-    return correlation
+    # print(result)
+    pearson = result[0].statistic
+    spearman = result[1].statistic
+    print(f"Pearson correlation of {path}: {pearson}")
+    print(f"Spearman correlation of {path}: {spearman}")
+    return spearman
 
 evaluate_model('/cs/labs/oabend/tomer.navot/year_models/1991_model.model')
 
-# def evaluate_models(folder_path):
-#     year_models_list = all_folder_models(folder_path)
-#     correlations = []
-#     for year_model in year_models_list:
-#         path = f"{folder_path}{year_model}"
-#         correlation = evaluate_model(path)
-#         correlations.append(correlation)
-#     return correlations
+def evaluate_models(folder_path):
+    year_models_list = all_folder_models(folder_path)
+    correlations = []
+    for year_model in year_models_list:
+        path = f"{folder_path}{year_model}"
+        correlation = evaluate_model(path)
+        correlations.append(correlation)
+    return correlations
 
-# year_models_path = "/cs/labs/oabend/tomer.navot/year_models/"
-# year_correlations = evaluate_models(year_models_path)
-# print(year_correlations)
+year_models_path = "/cs/labs/oabend/tomer.navot/year_models/"
+year_correlations = evaluate_models(year_models_path)
+print(year_correlations)
 
 # Evaluate models
 # def evaluate_models(model):
