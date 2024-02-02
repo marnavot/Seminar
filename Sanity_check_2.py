@@ -9,10 +9,14 @@ import os
 #     return Word2Vec.load(model_path)
 
 def all_folder_models(folder_path):
-    files = os.listdir(folder_path)
+    files = os.listdir(folder_path).sort()
     return files
 
-print(all_folder_models('/cs/labs/oabend/tomer.navot/year_models/'))
+year_models_list = all_folder_models('/cs/labs/oabend/tomer.navot/year_models/')
+
+for year_model in year_models_list[:2]:
+    model = Word2Vec.load(year_model)
+
 
 def evaluate_model(path):
     model = Word2Vec.load(path)
