@@ -3,11 +3,6 @@ from gensim.test.utils import datapath
 from scipy.stats import spearmanr
 import os
 
-# Load Word2Vec models
-# def load_model(year):
-#     model_path = f'/cs/labs/oabend/tstopomer.navot/year_models/{year}_model.model'
-#     return Word2Vec.load(model_path)
-
 def all_folder_models(folder_path):
     files = sorted(list(os.listdir(folder_path)))
     return files
@@ -16,7 +11,7 @@ def all_folder_models(folder_path):
 def evaluate_model(path):
     model = Word2Vec.load(path)
     result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))
-    correlation = result['spearmanr'][0]
+    correlation = result[0]['spearmanr']
     print(f"Correlation of {path}: {correlation}")
     return correlation
 
