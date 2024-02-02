@@ -9,7 +9,7 @@ import string
 corpus_path = '/cs/usr/tomer.navot/Word_lemma_PoS'
 
 # Set the path to save Word2Vec models
-model_save_path = '/cs/labs/oabend/tomer.navot/decade_models'
+model_save_path = '/cs/labs/oabend/tomer.navot/decade_models_2'
 
 # Function to read and preprocess the content of a file
 def read_file(file_path):
