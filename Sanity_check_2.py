@@ -82,7 +82,7 @@ def evaluate_models(folder_path):
     return spearman_correlations, pearson_correlations
 
 
-def plot_correlations(folder_path):
+def plot_correlations(folder_path, plot_name):
     spearman_correlations, pearson_correlations = evaluate_models(folder_path)
 
     # Extract years from filenames (taking the first four characters)
@@ -94,10 +94,11 @@ def plot_correlations(folder_path):
     plt.ylabel('Correlation Coefficient')
     plt.title('Word Similarity Correlations Over Time')
     plt.legend()
+    plt.savefig(f'//cs/labs/oabend/tomer.navot/plots/{plot_name}.png')
     plt.show()
 
 
 # Example usage:
 year_models_path = "/cs/labs/oabend/tomer.navot/year_models/"
-plot_correlations(year_models_path)
+plot_correlations(year_models_path, plot_name="year_models_correlations")
 
