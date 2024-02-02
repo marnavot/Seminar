@@ -25,6 +25,15 @@ def evaluate_model(path):
     print(f"Correlation of {path}: {correlation}")
     return correlation
 
+def evaluate_models(folder_path):
+    year_models_list = all_folder_models(folder_path)
+    correlations = []
+    for year_model in year_models_list:
+        path = f"{folder_path}{year_model}"
+        correlation = evaluate_model(path)
+        correlations.append(correlation)
+    return correlations
+
 
 # Evaluate models
 # def evaluate_models(model):
