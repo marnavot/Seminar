@@ -106,5 +106,5 @@ plot_correlations(year_models_path, plot_name="year_models_correlations")
 
 for i in range(10):
     models_path = f"/cs/labs/oabend/tomer.navot/decade_models/{i}/"
-    plot_correlations(models_path, f"decade_models_bin_{i}_correlations")
+    evaluate_models(models_path)
 
