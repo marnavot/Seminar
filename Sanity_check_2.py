@@ -1,6 +1,7 @@
 from gensim.models import Word2Vec
 from gensim.test.utils import datapath
 from scipy.stats import spearmanr
+import os
 
 # Load Word2Vec models
 # def load_model(year):
