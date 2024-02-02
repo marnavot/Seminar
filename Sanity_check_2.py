@@ -104,7 +104,9 @@ def plot_correlations(folder_path, plot_name):
 year_models_path = "/cs/labs/oabend/tomer.navot/year_models/"
 plot_correlations(year_models_path, plot_name="year_models_correlations")
 
-for i in range(10):
-    models_path = f"/cs/labs/oabend/tomer.navot/decade_models/{i}/"
-    evaluate_models(models_path)
+# for i in range(10):
+#     models_path = f"/cs/labs/oabend/tomer.navot/decade_models/{i}/"
+#     evaluate_models(models_path)
+
+evaluate_model("/cs/labs/oabend/tomer.navot/decade_models/1/")
 
