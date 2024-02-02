@@ -14,20 +14,22 @@ def evaluate_model(path):
     print(result)
     # correlation = result['spearmanr']
     # print(f"Correlation of {path}: {correlation}")
-    return correlation
+    # return correlation
 
-def evaluate_models(folder_path):
-    year_models_list = all_folder_models(folder_path)
-    correlations = []
-    for year_model in year_models_list:
-        path = f"{folder_path}{year_model}"
-        correlation = evaluate_model(path)
-        correlations.append(correlation)
-    return correlations
+evaluate_model('/cs/labs/oabend/tomer.navot/year_models/1991_model.model')
 
-year_models_path = "/cs/labs/oabend/tomer.navot/year_models/"
-year_correlations = evaluate_models(year_models_path)
-print(year_correlations)
+# def evaluate_models(folder_path):
+#     year_models_list = all_folder_models(folder_path)
+#     correlations = []
+#     for year_model in year_models_list:
+#         path = f"{folder_path}{year_model}"
+#         correlation = evaluate_model(path)
+#         correlations.append(correlation)
+#     return correlations
+
+# year_models_path = "/cs/labs/oabend/tomer.navot/year_models/"
+# year_correlations = evaluate_models(year_models_path)
+# print(year_correlations)
 
 # Evaluate models
 # def evaluate_models(model):
