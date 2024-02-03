@@ -67,7 +67,7 @@ def evaluate_model(path):
     pearson_result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))[0].statistic
     print(f"Pearson correlation of {path}: {pearson_result}")
     print(f"Spearman correlation of {path}: {spearman_result}")
-    if 'man' in model.wv.vocab:
+    if 'man' in model.wv.key_to_index:
         print(f"most similar words to 'man' are: {model.wv.most_similar('man')}")
     if 'gay' in model.wv.vocab:
         print(f"most similar words to 'gay' are: {model.wv.most_similar('gay')}")
