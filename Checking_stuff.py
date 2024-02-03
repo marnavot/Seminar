@@ -5,7 +5,7 @@ from scipy.stats import spearmanr, pearsonr
 import matplotlib.pyplot as plt
 
 folder = "/cs/labs/oabend/tomer.navot/decade_models/"
-for i in range(10)
+for i in range(10):
     sub_folder = f"{folder}{i}/"
     for filename in os.listdir(sub_folder):
         if filename.endswith(".model"):
