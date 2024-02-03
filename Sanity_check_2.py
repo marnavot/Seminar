@@ -67,20 +67,24 @@ def evaluate_model(path):
     pearson_result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))[0].statistic
     print(f"Pearson correlation of {path}: {pearson_result}")
     print(f"Spearman correlation of {path}: {spearman_result}")
+    print(f"most similar words to 'man' are: {model.wv.most_similar('man')}")
+    print(f"most similar words to 'gay' are: {model.wv.most_similar('gay')}")
     return spearman_result, pearson_result
 
 
 def evaluate_models(folder_path):
-    year_models_list = sorted(list(os.listdir(folder_path)))
+    models_list = sorted([file for file in os.listdir(folder_path) if file.endswith('.model')])
     spearman_correlations = []
     pearson_correlations = []
 
-    for year_model in year_models_list:
-        path = os.path.join(folder_path, year_model)
+    for model in models_list:
+        path = os.path.join(folder_path, model)
         spearman, pearson = evaluate_model(path)
         spearman_correlations.append(spearman)
         pearson_correlations.append(pearson)
 
+    print(f"Spearman correlations of {folder_path}: {spearman_correlations}")
+    print(f"Pearson correlation of {folder_path}: {pearson_correlations}")
     return spearman_correlations, pearson_correlations
 
 
@@ -102,11 +106,11 @@ def plot_correlations(folder_path, plot_name):
 
 # Example usage:
 year_models_path = "/cs/labs/oabend/tomer.navot/year_models/"
-plot_correlations(year_models_path, plot_name="year_models_correlations")
+# plot_correlations(year_models_path, plot_name="year_models_correlations")
+evaluate_models(year_models_path)
 
-# for i in range(10):
-#     models_path = f"/cs/labs/oabend/tomer.navot/decade_models/{i}/"
-#     evaluate_models(models_path)
+for i in range(10):
+    models_path = f"/cs/labs/oabend/tomer.navot/decade_models/{i}/"
+    evaluate_models(models_path)
 
-evaluate_models("/cs/labs/oabend/tomer.navot/decade_models/1/")
 
