@@ -69,7 +69,7 @@ def evaluate_model(path):
     print(f"Spearman correlation of {path}: {spearman_result}")
     if 'man' in model.wv.key_to_index:
         print(f"most similar words to 'man' are: {model.wv.most_similar('man')}")
-    if 'gay' in model.wv.vocab:
+    if 'gay' in model.wv.key_to_index:
         print(f"most similar words to 'gay' are: {model.wv.most_similar('gay')}")
     return spearman_result, pearson_result
 
