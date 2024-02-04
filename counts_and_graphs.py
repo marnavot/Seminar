@@ -89,7 +89,7 @@ def make_counts_dict(corpus):
 def get_vectors(lemma, folder):
     models = {int(file[:4]): Word2Vec.load(f"{folder}/{file}")
                   for file in os.listdir(folder) if file.endswith(".model")}
-    return {key:model.wv[lemma] if lemma in model.wv else key:None for (key,model) in models.items()}
+    return {key:model.wv[lemma] if lemma in model.wv else None for (key,model) in models.items()}
 
 loaded_counts_dict = pickle.load(open("/cs/labs/oabend/tomer.navot/counts_dict.p", "rb"))
 man_vectors = get_vectors("man", "/cs/labs/oabend/tomer.navot/year_models")
