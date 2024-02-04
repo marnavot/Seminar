@@ -3,9 +3,9 @@ import os
 # import numpy as np
 # from scipy.spatial import distance
 from gensim.models import Word2Vec, KeyedVectors, utils
-# import pickle
+import pickle
 import matplotlib.pyplot as plt
-from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances
+# from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances
 import math
 import re
 import chardet
@@ -78,5 +78,13 @@ def make_counts_dict(corpus):
     print(counts_dict)
     return counts_dict
 
+#
+# make_counts_dict(corpus_path)
 
-make_counts_dict(corpus_path)
+dict_tryout = {1:"sdfjdskn", 2: "jdsnfkjd", 3:"oiewur"}
+pickle.dump(dict_tryout, open("/cs/usr/tomer.navot/dict_tryout.p", "wb"))
+loaded_dict = pickle.load(open("/cs/usr/tomer.navot/dict_tryout.p", "rb"))
+print(loaded_dict)
+
+
+
