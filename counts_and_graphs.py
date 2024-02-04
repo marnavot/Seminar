@@ -85,6 +85,7 @@ dict_tryout = {1:"sdfjdskn", 2: "jdsnfkjd", 3:"oiewur"}
 pickle.dump(dict_tryout, open("/cs/usr/tomer.navot/dict_tryout.p", "wb"))
 loaded_dict = pickle.load(open("/cs/usr/tomer.navot/dict_tryout.p", "rb"))
 print(loaded_dict)
+print(type(loaded_dict))
 
 
 
