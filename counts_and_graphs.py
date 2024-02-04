@@ -5,7 +5,7 @@ import os
 from gensim.models import Word2Vec, KeyedVectors, utils
 import pickle
 # import matplotlib.pyplot as plt
-# from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances
+from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances
 import math
 import re
 import chardet
@@ -78,9 +78,64 @@ def make_counts_dict(corpus):
     pickle.dump(counts_dict, open("/cs/labs/oabend/tomer.navot/counts_dict.p", "wb"))
     return counts_dict
 
-make_counts_dict(corpus_path)
+# make_counts_dict(corpus_path)
+
+
+# print(loaded_counts_dict)
+# print(type(loaded_counts_dict))
+
+
+# Function to get vectors for lemmas
+def get_vectors(lemma, folder):
+    models = {int(file[:4]): Word2Vec.load(f"{folder}/{file}")
+                  for file in os.listdir(folder) if file.endswith(".model")}
+    return {key:model.wv[lemma] if lemma in model.wv else key:None for (key,model) in models.items()}
 
 loaded_counts_dict = pickle.load(open("/cs/labs/oabend/tomer.navot/counts_dict.p", "rb"))
-print(loaded_counts_dict)
-print(type(loaded_counts_dict))
+man_vectors = get_vectors("man", "/cs/labs/oabend/tomer.navot/year_models")
+print(man_vectors)
+
+# # Function to calculate cosine similarity between vectors
+# def calculate_cosine_similarity(lemma, folder):
+#     vectors = get_vectors(lemma, folder)
+#     cosine_sim = {}
+#     for i in vectors.key:
+#         if vectors[i] is None or vectors[i + 1] is None:
+#
+#
+#     return [cosine_similarity([vectors[i]], [vectors[i + 1]])[0, 0] for i in range(len(vectors) - 1)]
+#
+#
+# def get_n_top_lemmas(n):
+#     top_by_pos = {}
+#     # Loop through each PoS
+#     for pos in ['noun', 'verb', 'adj', 'adv']:  # Add more PoS as needed
+#         # Load PoS count data
+#         pos_count_file = os.path.join(pos_counts_path, f'{pos}_counts.csv')
+#         pos_data = pd.read_csv(pos_count_file)
+#
+#         # Extract top n lemmas
+#         top_lemmas = pos_data.head(n)['Lemma'].tolist()
+#         top_by_pos[pos] = top_lemmas
+#
+#     return top_by_pos
+#
+# top_100 = get_n_top_lemmas(100)
+#
+#
+# def get_vector_dict(lemmas_by_pos, models = year_models):
+#     vector_dict = {}
+#     lemma_vectors = False
+#     # Loop through each pos and lemma
+#     for pos, lemmas in lemmas_by_pos.items():
+#         for lemma in lemmas:
+#             # Get vectors for the lemma
+#             lemma_vectors = get_vectors(lemma, models)
+#             vector_dict[(lemma, pos)] = lemma_vectors
+#
+#     return vector_dict
+#
+#
+# top_100_vectors = get_vector_dict(top_100)
+
 
