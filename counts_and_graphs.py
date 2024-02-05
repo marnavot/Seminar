@@ -99,7 +99,7 @@ print(type(year_models))
 
 # Function to get vectors for lemmas
 def get_vectors(lemma, models_dict):
-    return {year:model.wv[lemma] if lemma in model.wv else None for year,model in models_dict}
+    return {year:model.wv[lemma] if lemma in model.wv else None for year,model in models_dict.items()}
 
 
 man_vectors = get_vectors("man", year_models)
