@@ -94,12 +94,12 @@ def load_folder_models(folder):
 
 year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
 year_models = load_folder_models(year_models_folder)
+print(type(year_models))
 
 
 # Function to get vectors for lemmas
 def get_vectors(lemma, models_dict):
-    models = {year:model for year,model in models_dict.items()}
-    return {year:model.wv[lemma] if lemma in model.wv else None for year,model in models}
+    return {year:model.wv[lemma] if lemma in model.wv else None for year,model in models_dict}
 
 
 man_vectors = get_vectors("man", year_models)
