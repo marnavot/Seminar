@@ -120,9 +120,9 @@ def calculate_cosine_similarity(lemma,models_dict):
     years = sorted(vectors.keys())
     for i in range(len(years) - 1):
         if vectors[years[i]] is None or vectors[years[i + 1]] is None:
-            cosine_sim[i] = None
+            cosine_sim[years[i]] = None
         else:
-            cosine_sim[i] = cosine_similarity([vectors[years[i]]], [vectors[years[i + 1]]])[0, 0]
+            cosine_sim[years[i]] = cosine_similarity([vectors[years[i]]], [vectors[years[i + 1]]])[0, 0]
     return cosine_sim
 
 # man_cosine_similarity = calculate_cosine_similarity("man", year_models)
