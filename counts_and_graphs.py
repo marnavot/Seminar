@@ -102,7 +102,6 @@ def load_folder_models(folder):
 
 year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
 year_models = load_folder_models(year_models_folder)
-print(type(year_models))
 
 
 # Function to get vectors for lemmas
@@ -138,8 +137,13 @@ def all_lemmas_cosine_similarity(lemma_dict, models_dict):
         result_dict[pos] = {lemma: calculate_cosine_similarity(lemma, models_dict) for lemma in inner_list}
     return result_dict
 
-top_100_lemmas_cosine_similarity = all_lemmas_cosine_similarity(top_100_lemmas, year_models)
-pickle.dump(top_100_lemmas_cosine_similarity, open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", "wb"))
+# top_100_lemmas_cosine_similarity = all_lemmas_cosine_similarity(top_100_lemmas, year_models)
+# pickle.dump(top_100_lemmas_cosine_similarity, open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", "wb"))
+
+with open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", 'rb') as file:
+    # Load the dictionary from the pickle file
+    loaded_dict = pickle.load(file)
+print(loaded_dict)
 
 
 # def get_n_top_lemmas(n):
