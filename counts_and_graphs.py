@@ -147,44 +147,18 @@ with open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", 'rb') a
     loaded_dict = pickle.load(file)
 # print(loaded_dict["gay"])
 
-# create dictionary of cosine similarity of all top 100 words, for each of the decade model sets
-decade_folder = "/cs/labs/oabend/tomer.navot/decade_models"
+# # create dictionary of cosine similarity of all top 100 words, for each of the decade model sets
+# decade_folder = "/cs/labs/oabend/tomer.navot/decade_models"
+# for i in range(10):
+#     bin_models_dict = load_folder_models(f"{decade_folder}/{i}")
+#     bin_similarity_dict = all_lemmas_cosine_similarity(top_100_lemmas, bin_models_dict)
+#     pickle.dump(bin_similarity_dict, open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", "wb"))
+
+# load cosine similarity dictionaries and print an example
 for i in range(10):
-    bin_models_dict = load_folder_models(f"{decade_folder}/{i}")
-    bin_similarity_dict = all_lemmas_cosine_similarity(top_100_lemmas, bin_models_dict)
-    pickle.dump(bin_similarity_dict, open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", "wb"))
+    loaded_dict = pickle.load(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p")
+    print(loaded_dict["man"])
 
 
-# def get_n_top_lemmas(n):
-#     top_by_pos = {}
-#     # Loop through each PoS
-#     for pos in ['noun', 'verb', 'adj', 'adv']:  # Add more PoS as needed
-#         # Load PoS count data
-#         pos_count_file = os.path.join(pos_counts_path, f'{pos}_counts.csv')
-#         pos_data = pd.read_csv(pos_count_file)
-#
-#         # Extract top n lemmas
-#         top_lemmas = pos_data.head(n)['Lemma'].tolist()
-#         top_by_pos[pos] = top_lemmas
-#
-#     return top_by_pos
-#
-# top_100 = get_n_top_lemmas(100)
-#
-#
-# def get_vector_dict(lemmas_by_pos, models = year_models):
-#     vector_dict = {}
-#     lemma_vectors = False
-#     # Loop through each pos and lemma
-#     for pos, lemmas in lemmas_by_pos.items():
-#         for lemma in lemmas:
-#             # Get vectors for the lemma
-#             lemma_vectors = get_vectors(lemma, models)
-#             vector_dict[(lemma, pos)] = lemma_vectors
-#
-#     return vector_dict
-#
-#
-# top_100_vectors = get_vector_dict(top_100)
 
 
