@@ -91,9 +91,6 @@ def get_top_n_lemmas(counts, n):
         result_dict[pos] = top_n_lemmas
     return result_dict
 
-top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
-print(top_100_lemmas)
-
 
 # function to load all models from a folder
 def load_folder_models(folder):
@@ -112,10 +109,10 @@ print(type(year_models))
 def get_vectors(lemma, models_dict):
     return {year:model.wv[lemma] if lemma in model.wv else None for year,model in models_dict.items()}
 
-
-man_vectors = get_vectors("man", year_models)
-print("man vectors:")
-print(man_vectors)
+#
+# man_vectors = get_vectors("man", year_models)
+# print("man vectors:")
+# print(man_vectors)
 
 # Function to calculate cosine similarity between vectors
 def calculate_cosine_similarity(lemma,models_dict):
@@ -128,9 +125,21 @@ def calculate_cosine_similarity(lemma,models_dict):
             cosine_sim[i] = cosine_similarity([vectors[i]], [vectors[i + 1]])[0, 0]
     return cosine_sim
 
-man_cosine_similarity = calculate_cosine_similarity("man", year_models)
-print("man cosine similarity:")
-print(man_cosine_similarity)
+# man_cosine_similarity = calculate_cosine_similarity("man", year_models)
+# print("man cosine similarity:")
+# print(man_cosine_similarity)
+
+top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
+print(top_100_lemmas)
+
+def all_lemmas_cosine_similarity(lemma_dict, models_dict):
+    result_dict = {}
+    for pos, inner_list in lemma_dict.items():
+        result_dict[pos] = {lemma: calculate_cosine_similarity(lemma, models_dict) for lemma in inner_list}
+    return result_dict
+
+top_100_lemmas_cosine_similarity = all_lemmas_cosine_similarity(top_100_lemmas, year_models)
+pickle.dump(top_100_lemmas_cosine_similarity, open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", "wb"))
 
 
 # def get_n_top_lemmas(n):
