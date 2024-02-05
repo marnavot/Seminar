@@ -142,10 +142,10 @@ def all_lemmas_cosine_similarity(lemma_dict, models_dict):
 # top_100_lemmas_cosine_similarity = all_lemmas_cosine_similarity(top_100_lemmas, year_models)
 # pickle.dump(top_100_lemmas_cosine_similarity, open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", "wb"))
 
-with open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", 'rb') as file:
-    # Load the dictionary from the pickle file
-    loaded_dict = pickle.load(file)
-# print(loaded_dict["gay"])
+# with open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", 'rb') as file:
+#     # Load the dictionary from the pickle file
+#     loaded_dict = pickle.load(file)
+# # print(loaded_dict["gay"])
 
 # # create dictionary of cosine similarity of all top 100 words, for each of the decade model sets
 # decade_folder = "/cs/labs/oabend/tomer.navot/decade_models"
@@ -154,12 +154,28 @@ with open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", 'rb') a
 #     bin_similarity_dict = all_lemmas_cosine_similarity(top_100_lemmas, bin_models_dict)
 #     pickle.dump(bin_similarity_dict, open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", "wb"))
 
-# load cosine similarity dictionaries and print an example
-for i in range(10):
-    with open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", 'rb') as file:
-        loaded_dict = pickle.load(file)
-        print(loaded_dict["adj"]["heavy"])
+# # load cosine similarity dictionaries and print an example
+# for i in range(10):
+#     with open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", 'rb') as file:
+#         loaded_dict = pickle.load(file)
+#         print(loaded_dict["adj"]["heavy"])
 
+
+# create dict of known lemmas that underwent semantic change
+changed_lemmas = {"n": ["car","mouse", "humor", "bear", "weasel", "dog", "hound", "ass", "toilet", "dude", "disease"],
+                  "v": ["arrive"],
+                  "adj":["gay", "silly"],
+                  "adv":["terribly", "horribly", "awfully"]}
+# calculate their cosine similarity in the year models and save
+changed_lemmas_cosine = all_lemmas_cosine_similarity(changed_lemmas, year_models)
+pickle.dump(changed_lemmas_cosine, open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity_changed_lemmas.p", "wb"))
+
+# the same for all models:
+decade_folder = "/cs/labs/oabend/tomer.navot/decade_models"
+for i in range(10):
+    bin_models_dict = load_folder_models(f"{decade_folder}/{i}")
+    bin_similarity_dict = all_lemmas_cosine_similarity(changed_lemmas, bin_models_dict)
+    pickle.dump(bin_similarity_dict, open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", "wb"))
 
 
 
