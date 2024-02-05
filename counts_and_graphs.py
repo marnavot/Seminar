@@ -158,7 +158,7 @@ with open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", 'rb') a
 for i in range(10):
     with open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", 'rb') as file:
         loaded_dict = pickle.load(file)
-        print(loaded_dict["n"]["man"])
+        print(loaded_dict["adj"]["heavy"])
 
 
 
