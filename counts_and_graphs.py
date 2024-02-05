@@ -98,25 +98,30 @@ year_models = load_folder_models(year_models_folder)
 
 # Function to get vectors for lemmas
 def get_vectors(lemma, models_dict):
-    models = [model for year,model in sorted(models_dict.items())]
-    return [model.wv[lemma] if lemma in model.wv else None for model in models]
+    models = {year:model for year,model in sorted(models_dict.items())}
+    return {year:model.wv[lemma] if lemma in model.wv else None for year,model in models}
 
 
 man_vectors = get_vectors("man", year_models)
 print("man vectors:")
 print(man_vectors)
 
-# # Function to calculate cosine similarity between vectors
-# def calculate_cosine_similarity(lemma, folder):
-#     vectors = get_vectors(lemma, folder)
-#     cosine_sim = {}
-#     for i in vectors.key:
-#         if vectors[i] is None or vectors[i + 1] is None:
-#
-#
-#     return [cosine_similarity([vectors[i]], [vectors[i + 1]])[0, 0] for i in range(len(vectors) - 1)]
-#
-#
+# Function to calculate cosine similarity between vectors
+def calculate_cosine_similarity(lemma,models_dict):
+    vectors = get_vectors(lemma, models_dict)
+    cosine_sim = {}
+    for i in sorted(vectors.keys())[:-1]:
+        if vectors[i] is None or vectors[i + 1] is None:
+            cosine_sim[i] = None
+        else:
+            cosine_sim[i] = cosine_similarity([vectors[i]], [vectors[i + 1]])[0, 0]
+    return cosine_sim
+
+man_cosine_similarity = calculate_cosine_similarity("man", year_models)
+print("man cosine similarity:")
+print(man_cosine_similarity)
+
+
 # def get_n_top_lemmas(n):
 #     top_by_pos = {}
 #     # Loop through each PoS
