@@ -81,8 +81,13 @@ def make_counts_dict(corpus):
 # make_counts_dict(corpus_path)
 
 
-# print(loaded_counts_dict)
-# print(type(loaded_counts_dict))
+# function to load all models from a folder
+def load_folder_models(folder):
+    return {int(file[:4]): Word2Vec.load(f"{folder}/{file}") for file in os.listdir(folder) if file.endswith(".model")}
+
+year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
+year_models = load_folder_models(year_models_folder)
+print(year_models)
 
 
 # # Function to get vectors for lemmas
