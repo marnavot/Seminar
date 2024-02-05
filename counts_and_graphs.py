@@ -98,7 +98,7 @@ year_models = load_folder_models(year_models_folder)
 
 # Function to get vectors for lemmas
 def get_vectors(lemma, models_dict):
-    models = {year:model for year,model in sorted(models_dict.items())}
+    models = {year:model for year,model in models_dict.items()}
     return {year:model.wv[lemma] if lemma in model.wv else None for year,model in models}
 
 
