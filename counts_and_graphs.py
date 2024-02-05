@@ -80,27 +80,31 @@ def make_counts_dict(corpus):
 
 # make_counts_dict(corpus_path)
 
-
-# function to load all models from a folder
-def load_folder_models(folder):
-    return {int(file[:4]): Word2Vec.load(f"{folder}/{file}") for file in os.listdir(folder) if file.endswith(".model")}
-
-year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
-year_models = load_folder_models(year_models_folder)
-print(year_models)
-
-
-# # Function to get vectors for lemmas
-# def get_vectors(lemma, folder):
-#     models = {int(file[:4]): Word2Vec.load(f"{folder}/{file}")
-#                   for file in os.listdir(folder) if file.endswith(".model")}
-#     return {key:model.wv[lemma] if lemma in model.wv else None for (key,model) in models.items()}
-
 print("loading counts")
 loaded_counts_dict = pickle.load(open("/cs/labs/oabend/tomer.navot/counts_dict.p", "rb"))
 print("loaded counts")
-# man_vectors = get_vectors("man", "/cs/labs/oabend/tomer.navot/year_models")
-# print(man_vectors)
+
+# function to load all models from a folder
+def load_folder_models(folder):
+    print(f"loading models from {folder}")
+    models_dict = {int(file[:4]): Word2Vec.load(f"{folder}/{file}") for file in os.listdir(folder) if file.endswith(".model")}
+    print(f"loaded models from {folder}")
+    return models_dict
+
+
+year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
+year_models = load_folder_models(year_models_folder)
+
+
+# Function to get vectors for lemmas
+def get_vectors(lemma, models_dict):
+    models = [model for year,model in sorted(models_dict.items())]
+    return [model.wv[lemma] if lemma in model.wv else None for model in models]
+
+
+man_vectors = get_vectors("man", year_models)
+print("man vectors:")
+print(man_vectors)
 
 # # Function to calculate cosine similarity between vectors
 # def calculate_cosine_similarity(lemma, folder):
