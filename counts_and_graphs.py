@@ -156,8 +156,9 @@ with open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", 'rb') a
 
 # load cosine similarity dictionaries and print an example
 for i in range(10):
-    loaded_dict = pickle.load(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p")
-    print(loaded_dict["man"])
+    with open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", 'rb') as file:
+        loaded_dict = pickle.load(file)
+        print(loaded_dict["man"])
 
 
 
