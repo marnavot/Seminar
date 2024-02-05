@@ -84,6 +84,9 @@ print("loading counts")
 loaded_counts_dict = pickle.load(open("/cs/labs/oabend/tomer.navot/counts_dict.p", "rb"))
 print("loaded counts")
 
+common_word_list = [lemma for inner_dict in loaded_counts_dict.values() for lemma in inner_dict.keys()]
+print(common_word_list)
+
 # function to load all models from a folder
 def load_folder_models(folder):
     print(f"loading models from {folder}")
