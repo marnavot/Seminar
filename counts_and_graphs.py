@@ -161,21 +161,26 @@ def all_lemmas_cosine_similarity(lemma_dict, models_dict):
 #         print(loaded_dict["adj"]["heavy"])
 
 
-# create dict of known lemmas that underwent semantic change
-changed_lemmas = {"n": ["car","mouse", "humor", "bear", "weasel", "dog", "hound", "ass", "toilet", "dude", "disease"],
-                  "v": ["arrive"],
-                  "adj":["gay", "silly"],
-                  "adv":["terribly", "horribly", "awfully"]}
-# calculate their cosine similarity in the year models and save
-changed_lemmas_cosine = all_lemmas_cosine_similarity(changed_lemmas, year_models)
-pickle.dump(changed_lemmas_cosine, open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity_changed_lemmas.p", "wb"))
+# # create dict of known lemmas that underwent semantic change
+# changed_lemmas = {"n": ["car","mouse", "humor", "bear", "weasel", "dog", "hound", "ass", "toilet", "dude", "disease"],
+#                   "v": ["arrive"],
+#                   "adj":["gay", "silly"],
+#                   "adv":["terribly", "horribly", "awfully"]}
+# # calculate their cosine similarity in the year models and save
+# changed_lemmas_cosine = all_lemmas_cosine_similarity(changed_lemmas, year_models)
+# pickle.dump(changed_lemmas_cosine, open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity_changed_lemmas.p", "wb"))
+#
+# # the same for all models:
+# decade_folder = "/cs/labs/oabend/tomer.navot/decade_models"
+# for i in range(10):
+#     bin_models_dict = load_folder_models(f"{decade_folder}/{i}")
+#     bin_similarity_dict = all_lemmas_cosine_similarity(changed_lemmas, bin_models_dict)
+#     pickle.dump(bin_similarity_dict, open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", "wb")
 
-# the same for all models:
-decade_folder = "/cs/labs/oabend/tomer.navot/decade_models"
-for i in range(10):
-    bin_models_dict = load_folder_models(f"{decade_folder}/{i}")
-    bin_similarity_dict = all_lemmas_cosine_similarity(changed_lemmas, bin_models_dict)
-    pickle.dump(bin_similarity_dict, open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", "wb"))
+model_1990 = year_models[1990]
+target_word = "gay"
+top_25_similar_to_gay = model_1990.wv.similar_by_word(target_word, topn=25)
+print(top_25_similar_to_gay)
 
 
 
