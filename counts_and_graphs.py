@@ -178,9 +178,15 @@ def all_lemmas_cosine_similarity(lemma_dict, models_dict):
 #     pickle.dump(bin_similarity_dict, open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", "wb")
 
 model_1990 = year_models[1990]
-target_word = "gay"
-top_25_similar_to_gay = model_1990.wv.similar_by_word(target_word, topn=25)
-print(top_25_similar_to_gay)
+
+def get_top_k_similar_vectors(lemma, model, k=25):
+    top_k_similar = model.wv.similar_by_word(lemma, topn=k)
+    similar_vectors = {word[0]:model.wv[word[0]] for word in top_k_similar}
+    return similar_vectors
+
+print(get_top_k_similar_vectors("gay", model_1990))
+
+
 
 
 
