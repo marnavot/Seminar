@@ -36,6 +36,8 @@ def split_into_sentences(lemmas):
         sentences.append(current_sentence)
 
     return sentences
+
+
 # Function to read and preprocess the content of a file
 def read_file(file_path):
     with open(file_path, 'rb') as file:
@@ -98,7 +100,8 @@ for year in range(last_available_year + 1, 1905):  # Adjust the range based on y
 
     # Read the files for the current year
     sentences = [read_file(file) for file in year_files if os.path.isfile(file)]
-    sentences = [inner_list for file_lists in sentences for inner_list in file_lists
+    sentences = [inner_list for file_lists in sentences for inner_list in file_lists]
+
     # Set a fixed seed (e.g., 42)
     random.seed(42)
     random.shuffle(sentences)
