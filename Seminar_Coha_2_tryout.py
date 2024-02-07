@@ -75,7 +75,7 @@ def read_file(file_path):
 last_available_year = 1899
 # check last model created
 for year in range(1900, 1905):
-    year_model_path = os.path.join(model_save_path, f'{year}_model.model')
+    year_model_path = os.path.join(model_save_path, f'_{year}_model.model')
     if os.path.exists(year_model_path):
         print(f"model of {year} exists")
         last_available_year = year
