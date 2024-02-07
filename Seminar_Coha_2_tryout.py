@@ -1,3 +1,10 @@
+from gensim.models import Word2Vec
+import os
+import re
+import pandas as pd
+import string
+import chardet
+
 # Path to the directory containing your text files
 # corpus_path = 'C:\\Users\\Tomer\\Documents\\עבודה סמינריונית\\wordLemPoS'
 corpus_path = '/cs/usr/tomer.navot/Word_lemma_PoS'
