@@ -7,6 +7,7 @@ import chardet
 # import nltk
 # nltk.download('punkt')
 # from nltk.tokenize import word_tokenize
+import random
 
 
 # Path to the directory containing your text files
@@ -27,7 +28,7 @@ def split_into_sentences(lemmas):
                 sentences.append(current_sentence)
                 current_sentence = []
         else:
-            if lemma not in string.punctuation:
+            if lemma not in string.punctuation and lemma not in ["##", '\x00'] :
                 current_sentence.append(lemma)
 
     # Append the last sentence if it exists
@@ -97,7 +98,10 @@ for year in range(last_available_year + 1, 1905):  # Adjust the range based on y
 
     # Read the files for the current year
     sentences = [read_file(file) for file in year_files if os.path.isfile(file)]
-    sentences = [inner_list for file_lists in sentences for inner_list in file_lists]
+    sentences = [inner_list for file_lists in sentences for inner_list in file_lists
+    # Set a fixed seed (e.g., 42)
+    random.seed(42)
+    random.shuffle(sentences)
     print(sentences[:10])
 
 
