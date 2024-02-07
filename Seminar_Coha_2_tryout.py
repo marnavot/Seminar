@@ -28,7 +28,7 @@ def read_file(file_path):
 
         return words
 
-last_available_year = 1810
+last_available_year = 1899
 # check last model created
 for year in range(1900, 1905):
     year_model_path = os.path.join(model_save_path, f'{year}_model.model')
@@ -57,7 +57,7 @@ for year in range(last_available_year + 1, 1905):  # Adjust the range based on y
 
     # Read the files for the current year
     sentences = [read_file(file) for file in year_files if os.path.isfile(file)]
-    print(sentences[:10])
+    print(sentences[:5])
 
     # Check if the model has an existing vocabulary
     if model.wv.key_to_index:
