@@ -57,7 +57,11 @@ for year in range(last_available_year + 1, 1905):  # Adjust the range based on y
 
     # Read the files for the current year
     sentences = [read_file(file) for file in year_files if os.path.isfile(file)]
+    print("first words:")
     print([sentence[:5] for sentence in sentences[:5]])
+    print("last words")
+    print([sentence[-5:] for sentence in sentences[:5]])
+
 
     # Check if the model has an existing vocabulary
     if model.wv.key_to_index:
