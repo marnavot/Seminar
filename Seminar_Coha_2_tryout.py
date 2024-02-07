@@ -97,6 +97,7 @@ for year in range(last_available_year + 1, 1905):  # Adjust the range based on y
 
     # Read the files for the current year
     sentences = [read_file(file) for file in year_files if os.path.isfile(file)]
+    sentences = [inner_list for file_lists in sentences for inner_list in file_lists]
     print(sentences[:10])
 
 
