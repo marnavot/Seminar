@@ -27,7 +27,8 @@ def split_into_sentences(lemmas):
                 sentences.append(current_sentence)
                 current_sentence = []
         else:
-            current_sentence.append(lemma)
+            if lemma not in string.punctuation:
+                current_sentence.append(lemma)
 
     # Append the last sentence if it exists
     if current_sentence:
@@ -48,7 +49,6 @@ def read_file(file_path):
         words = [line.split('\t')[1].lower() for line in lines if
                  len(line.split('\t')) > 1 and line.strip() and line.split('\t')[1].lower()]
         words = split_into_sentences(words)
-        words = [word for word in words if word not in string.punctuation]
         # words = [line.split('\t')[1].lower() for line in lines if
         #          len(line.split('\t')) > 1 and line.strip() and line.split('\t')[1].lower() not in string.punctuation]
 
