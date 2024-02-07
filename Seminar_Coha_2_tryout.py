@@ -4,9 +4,10 @@ import re
 import pandas as pd
 import string
 import chardet
-import nltk
-nltk.download('punkt')
-from nltk.tokenize import word_tokenize
+# import nltk
+# nltk.download('punkt')
+# from nltk.tokenize import word_tokenize
+
 
 # Path to the directory containing your text files
 # corpus_path = 'C:\\Users\\Tomer\\Documents\\עבודה סמינריונית\\wordLemPoS'
@@ -15,6 +16,24 @@ corpus_path = '/cs/usr/tomer.navot/Word_lemma_PoS'
 # Set the path to save Word2Vec models
 model_save_path = '/cs/labs/oabend/tomer.navot/year_models_tryout/'
 
+# function to split into separate sentences
+def split_into_sentences(lemmas):
+    sentences = []
+    current_sentence = []
+
+    for lemma in lemmas:
+        if lemma in [".", "?", "!"]:
+            if current_sentence:
+                sentences.append(current_sentence)
+                current_sentence = []
+        else:
+            current_sentence.append(lemma)
+
+    # Append the last sentence if it exists
+    if current_sentence:
+        sentences.append(current_sentence)
+
+    return sentences
 # Function to read and preprocess the content of a file
 def read_file(file_path):
     with open(file_path, 'rb') as file:
@@ -24,24 +43,30 @@ def read_file(file_path):
         encoding = result['encoding']
 
     with open(file_path, 'r', encoding=encoding, errors='replace') as file:
-        # lines = file.readlines()
-        # # Extract lemma from the second column
+        lines = file.readlines()
+        # Extract lemma from the second column
+        words = [line.split('\t')[1].lower() for line in lines if
+                 len(line.split('\t')) > 1 and line.strip() and line.split('\t')[1].lower()]
+        words = split_into_sentences(words)
+        words = [word for word in words if word not in string.punctuation]
         # words = [line.split('\t')[1].lower() for line in lines if
         #          len(line.split('\t')) > 1 and line.strip() and line.split('\t')[1].lower() not in string.punctuation]
-        #
-        # return words
-        text = file.read()
-        # Tokenize the text into sentences
-        sentences = nltk.sent_tokenize(text)
-        lemma_sentences = []
-        # Tokenize each sentence into words and extract lemmas
-        for sentence in sentences:
-            words = word_tokenize(sentence)
-            lemmas = [word.split('\t')[1].lower() for word in words if
-                      len(word.split('\t')) > 1 and word.strip() and word.split('\t')[
-                          1].lower() not in string.punctuation]
-            lemma_sentences.append(lemmas)
-        return lemma_sentences
+
+        return words
+
+
+        # text = file.read()
+        # # Tokenize the text into sentences
+        # sentences = nltk.sent_tokenize(text)
+        # lemma_sentences = []
+        # # Tokenize each sentence into words and extract lemmas
+        # for sentence in sentences:
+        #     words = word_tokenize(sentence)
+        #     lemmas = [word.split('\t')[1].lower() for word in words if
+        #               len(word.split('\t')) > 1 and word.strip() and word.split('\t')[
+        #                   1].lower() not in string.punctuation]
+        #     lemma_sentences.append(lemmas)
+        # return lemma_sentences
 
 last_available_year = 1899
 # check last model created
@@ -72,7 +97,7 @@ for year in range(last_available_year + 1, 1905):  # Adjust the range based on y
 
     # Read the files for the current year
     sentences = [read_file(file) for file in year_files if os.path.isfile(file)]
-    print(sentences[:5])
+    print(sentences[:10])
 
 
     # Check if the model has an existing vocabulary
