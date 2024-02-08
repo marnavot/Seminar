@@ -83,7 +83,8 @@ def make_counts_dict(corpus):
 print("loading counts")
 loaded_counts_dict = pickle.load(open("/cs/labs/oabend/tomer.navot/counts_dict.p", "rb"))
 print("loaded counts")
-print(f"number of lemmas: {len(loaded_counts_dict.keys())}")
+number_of_lemmas = {key:len(loaded_counts_dict[key]) for key in loaded_counts_dict.keys()}
+print(number_of_lemmas)
 
 def get_top_n_lemmas(counts, n):
     result_dict = {}
@@ -100,9 +101,9 @@ def load_folder_models(folder):
     print(f"loaded models from {folder}")
     return models_dict
 
-
-year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
-year_models = load_folder_models(year_models_folder)
+#
+# year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
+# year_models = load_folder_models(year_models_folder)
 
 
 # Function to get vectors for lemmas
