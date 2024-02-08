@@ -83,6 +83,7 @@ def make_counts_dict(corpus):
 print("loading counts")
 loaded_counts_dict = pickle.load(open("/cs/labs/oabend/tomer.navot/counts_dict.p", "rb"))
 print("loaded counts")
+print(f"number of lemmas: {len(loaded_counts_dict.keys())}")
 
 def get_top_n_lemmas(counts, n):
     result_dict = {}
@@ -125,12 +126,25 @@ def calculate_cosine_similarity(lemma,models_dict):
             cosine_sim[years[i]] = cosine_similarity([vectors[years[i]]], [vectors[years[i + 1]]])[0, 0]
     return cosine_sim
 
+def cosine_similarity_years_apart(lemma, models_dict, years_distance = 10):
+    vectors = get_vectors(lemma, models_dict)
+    cosine_sim = {}
+    years = sorted(vectors.keys())
+    for i in years[:-years_distance]:
+        if vectors[i] is None or vectors[i + years_distance] is None:
+            cosine_sim[i] = None
+        else:
+            cosine_sim[i] = cosine_similarity([vectors[i]], [vectors[i + years_distance]])[0, 0]
+    return cosine_sim
+
+
+
 # man_cosine_similarity = calculate_cosine_similarity("man", year_models)
 # print("man cosine similarity:")
 # print(man_cosine_similarity)
 
-top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
-print(top_100_lemmas)
+# top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
+# print(top_100_lemmas)
 
 def all_lemmas_cosine_similarity(lemma_dict, models_dict):
     result_dict = {}
@@ -138,9 +152,22 @@ def all_lemmas_cosine_similarity(lemma_dict, models_dict):
         result_dict[pos] = {lemma: calculate_cosine_similarity(lemma, models_dict) for lemma in inner_list}
     return result_dict
 
+
+def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_distance = 10):
+    result_dict = {}
+    for pos, inner_list in lemma_dict.items():
+        result_dict[pos] = {lemma: cosine_similarity_years_apart(lemma, models_dict,years_distance)
+                            for lemma in inner_list}
+    return result_dict
+
+
+
+
 # # create dictionary of cosine similarity of all 100 top lemmas, with year models
 # top_100_lemmas_cosine_similarity = all_lemmas_cosine_similarity(top_100_lemmas, year_models)
 # pickle.dump(top_100_lemmas_cosine_similarity, open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", "wb"))
+
+# create dictionary of cosine similarity
 
 # with open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", 'rb') as file:
 #     # Load the dictionary from the pickle file
@@ -177,14 +204,13 @@ def all_lemmas_cosine_similarity(lemma_dict, models_dict):
 #     bin_similarity_dict = all_lemmas_cosine_similarity(changed_lemmas, bin_models_dict)
 #     pickle.dump(bin_similarity_dict, open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_similarity.p", "wb")
 
-model_1990 = year_models[1990]
 
 def get_top_k_similar_vectors(lemma, model, k=25):
     top_k_similar = model.wv.similar_by_word(lemma, topn=k)
     similar_vectors = {word[0]:model.wv[word[0]] for word in top_k_similar}
     return similar_vectors
-
-print(get_top_k_similar_vectors("gay", model_1990))
+#
+# print(get_top_k_similar_vectors("gay", model_1990))
 
 
 
