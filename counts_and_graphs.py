@@ -73,18 +73,34 @@ def make_counts_dict(corpus):
     sorted_lemma_adj_counts = dict(sorted(lemma_adj_counts.items(), key=lambda item: item[1], reverse=True))
     sorted_lemma_adv_counts = dict(sorted(lemma_adv_counts.items(), key=lambda item: item[1], reverse=True))
 
-    counts_dict = {"n":sorted_lemma_noun_counts, "v":sorted_lemma_verb_counts,
-                   "adj":sorted_lemma_adj_counts, "adv":sorted_lemma_adv_counts}
+    counts_dict = {"n": sorted_lemma_noun_counts, "v": sorted_lemma_verb_counts,
+                   "adj": sorted_lemma_adj_counts, "adv": sorted_lemma_adv_counts}
     pickle.dump(counts_dict, open("/cs/labs/oabend/tomer.navot/counts_dict.p", "wb"))
     return counts_dict
+
 
 # make_counts_dict(corpus_path)
 
 print("loading counts")
 loaded_counts_dict = pickle.load(open("/cs/labs/oabend/tomer.navot/counts_dict.p", "rb"))
 print("loaded counts")
-number_of_lemmas = {key:len(loaded_counts_dict[key]) for key in loaded_counts_dict.keys()}
+number_of_lemmas = {key: len(loaded_counts_dict[key]) for key in loaded_counts_dict.keys()}
 print(number_of_lemmas)
+
+
+def get_lemmas_that_appear_more_than_n(counts, n, pos_list=None):
+    if pos_list is None:
+        pos_list = ["n", "v", "adj"]
+    results_dict = {}
+    for pos, inner_dict in counts.items():
+        if pos in pos_list:
+            results_dict[pos] = {lemma: count for lemma, count in inner_dict.items() if count >= n}
+
+    return results_dict
+
+
+lemmas_counts_more_than_20 = get_lemmas_that_appear_more_than_n(loaded_counts_dict, n=20)
+print(lemmas_counts_more_than_20.keys())
 
 def get_top_n_lemmas(counts, n):
     result_dict = {}
@@ -97,18 +113,21 @@ def get_top_n_lemmas(counts, n):
 # function to load all models from a folder
 def load_folder_models(folder):
     print(f"loading models from {folder}")
-    models_dict = {int(file[:4]): Word2Vec.load(f"{folder}/{file}") for file in os.listdir(folder) if file.endswith(".model")}
+    models_dict = {int(file[:4]): Word2Vec.load(f"{folder}/{file}") for file in os.listdir(folder) if
+                   file.endswith(".model")}
     print(f"loaded models from {folder}")
     return models_dict
 
+
 #
-# year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
-# year_models = load_folder_models(year_models_folder)
+year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
+year_models = load_folder_models(year_models_folder)
 
 
 # Function to get vectors for lemmas
 def get_vectors(lemma, models_dict):
-    return {year:model.wv[lemma] if lemma in model.wv else None for year,model in models_dict.items()}
+    return {year: model.wv[lemma] if lemma in model.wv else None for year, model in models_dict.items()}
+
 
 #
 # man_vectors = get_vectors("man", year_models)
@@ -116,7 +135,7 @@ def get_vectors(lemma, models_dict):
 # print(man_vectors)
 
 # Function to calculate cosine similarity between vectors
-def calculate_cosine_similarity(lemma,models_dict):
+def calculate_cosine_similarity(lemma, models_dict):
     vectors = get_vectors(lemma, models_dict)
     cosine_sim = {}
     years = sorted(vectors.keys())
@@ -127,7 +146,8 @@ def calculate_cosine_similarity(lemma,models_dict):
             cosine_sim[years[i]] = cosine_similarity([vectors[years[i]]], [vectors[years[i + 1]]])[0, 0]
     return cosine_sim
 
-def cosine_similarity_years_apart(lemma, models_dict, years_distance = 10):
+
+def cosine_similarity_years_apart(lemma, models_dict, years_distance=10):
     vectors = get_vectors(lemma, models_dict)
     cosine_sim = {}
     years = sorted(vectors.keys())
@@ -137,7 +157,6 @@ def cosine_similarity_years_apart(lemma, models_dict, years_distance = 10):
         else:
             cosine_sim[i] = cosine_similarity([vectors[i]], [vectors[i + years_distance]])[0, 0]
     return cosine_sim
-
 
 
 # man_cosine_similarity = calculate_cosine_similarity("man", year_models)
@@ -154,14 +173,12 @@ def all_lemmas_cosine_similarity(lemma_dict, models_dict):
     return result_dict
 
 
-def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_distance = 10):
+def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_distance=10):
     result_dict = {}
     for pos, inner_list in lemma_dict.items():
-        result_dict[pos] = {lemma: cosine_similarity_years_apart(lemma, models_dict,years_distance)
+        result_dict[pos] = {lemma: cosine_similarity_years_apart(lemma, models_dict, years_distance)
                             for lemma in inner_list}
     return result_dict
-
-
 
 
 # # create dictionary of cosine similarity of all 100 top lemmas, with year models
@@ -208,12 +225,7 @@ def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_dist
 
 def get_top_k_similar_vectors(lemma, model, k=25):
     top_k_similar = model.wv.similar_by_word(lemma, topn=k)
-    similar_vectors = {word[0]:model.wv[word[0]] for word in top_k_similar}
+    similar_vectors = {word[0]: model.wv[word[0]] for word in top_k_similar}
     return similar_vectors
 #
 # print(get_top_k_similar_vectors("gay", model_1990))
-
-
-
-
-
