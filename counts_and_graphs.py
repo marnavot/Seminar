@@ -100,7 +100,7 @@ def get_lemmas_that_appear_more_than_n(counts, n, pos_list=None):
 
 
 lemmas_counts_more_than_20 = get_lemmas_that_appear_more_than_n(loaded_counts_dict, n=20)
-print(lemmas_counts_more_than_20.keys())
+print(lemmas_counts_more_than_20)
 
 def get_top_n_lemmas(counts, n):
     result_dict = {}
@@ -120,8 +120,8 @@ def load_folder_models(folder):
 
 
 #
-year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
-year_models = load_folder_models(year_models_folder)
+# year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
+# year_models = load_folder_models(year_models_folder)
 
 
 # Function to get vectors for lemmas
