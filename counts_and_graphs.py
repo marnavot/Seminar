@@ -94,13 +94,13 @@ def get_lemmas_that_appear_more_than_n(counts, n, pos_list=None):
     results_dict = {}
     for pos, inner_dict in counts.items():
         if pos in pos_list:
-            results_dict[pos] = {lemma: count for lemma, count in inner_dict.items() if count >= n}
+            results_dict[pos] = [lemma for lemma in inner_dict.keys() if inner_dict[lemma] >= n]
 
     return results_dict
 
 
-lemmas_counts_more_than_20 = get_lemmas_that_appear_more_than_n(loaded_counts_dict, n=20)
-print(lemmas_counts_more_than_20)
+# lemmas_counts_more_than_20 = get_lemmas_that_appear_more_than_n(loaded_counts_dict, n=20)
+# print(lemmas_counts_more_than_20)
 
 def get_top_n_lemmas(counts, n):
     result_dict = {}
@@ -119,9 +119,9 @@ def load_folder_models(folder):
     return models_dict
 
 
-#
-# year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
-# year_models = load_folder_models(year_models_folder)
+
+year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
+year_models = load_folder_models(year_models_folder)
 
 
 # Function to get vectors for lemmas
@@ -183,9 +183,16 @@ def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_dist
 
 # # create dictionary of cosine similarity of all 100 top lemmas, with year models
 # top_100_lemmas_cosine_similarity = all_lemmas_cosine_similarity(top_100_lemmas, year_models)
-# pickle.dump(top_100_lemmas_cosine_similarity, open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", "wb"))
+# pickle.dump(top_100_lemmas_cosine_similarity,
 
-# create dictionary of cosine similarity
+# create dictionary of cosine similarity (10 years distance) for all lemmas that appear more than 100 times
+
+lemmas_more_than_100 = get_lemmas_that_appear_more_than_n(loaded_counts_dict, 100)
+more_than_100_cosine_similarity = all_lemmas_cosine_similarity_years_apart(lemmas_more_than_100, year_models, 10)
+pickle.dump(more_than_100_cosine_similarity,
+            open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity_more_than_10.p", "wb"))
+
+
 
 # with open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", 'rb') as file:
 #     # Load the dictionary from the pickle file
