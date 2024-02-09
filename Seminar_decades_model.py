@@ -2,6 +2,7 @@ from gensim.models import Word2Vec
 import os
 import chardet
 import string
+import random
 
 # import Seminar_year_graphs as gr
 # Path to the directory containing your text files
@@ -9,7 +10,7 @@ import string
 corpus_path = '/cs/usr/tomer.navot/Word_lemma_PoS'
 
 # Set the path to save Word2Vec models
-model_save_path = '/cs/labs/oabend/tomer.navot/decade_models_2'
+model_save_path = '/cs/labs/oabend/tomer.navot/decade_models_tryout'
 
 # Function to read and preprocess the content of a file
 def read_file(file_path):
@@ -28,7 +29,7 @@ def read_file(file_path):
         return words
 
 
-
+# for each i (years of decades begin in i), train a different incremental model
 for i in range(10):
     slot_path = f'{model_save_path}/{i}'
     # if not os.path.exists(slot_path):
@@ -36,15 +37,15 @@ for i in range(10):
 
     # Create a new Word2Vec model for each i (slot-division) if folder is empty
     if not any(os.scandir(slot_path)):
-        model = Word2Vec(window=5, min_count=5, workers=4)
+        model = Word2Vec(window=5, min_count=50, workers=6)
 
-    slots = [(year, year + 10) for year in range(1810 + i, 2011, 10)]
+    slots = [(year, year + 10) for year in range(1850 + i, 1900, 10)]
     if i != 0:
-        first_slot = (1810, 1810 + i)
+        first_slot = (1850, 1850 + i)
         slots.insert(0, first_slot)
     print(slots)
 
-    last_available_year = 1809
+    last_available_year = 1849
 
     for slot in slots:
         slot_model_path = os.path.join(slot_path, f'{slot[0]}-{slot[1] - 1}_model.model')
@@ -58,8 +59,9 @@ for i in range(10):
             slot_files = [os.path.join(corpus_path, file) for file in os.listdir(corpus_path) if
                             any(f"_{str(year)}_" in file for year in range(*slot))]
 
-            # Read the files for the current year
+            # Read the files for the current slot
             sentences = [read_file(file) for file in slot_files if os.path.isfile(file)]
+            print(random.sample(sentences, 10))
 
             # Build or update the vocabulary
             if model.wv.key_to_index:
