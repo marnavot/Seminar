@@ -166,8 +166,8 @@ def cosine_similarity_years_apart(lemma, models_dict, years_distance=10):
 # print("man cosine similarity:")
 # print(man_cosine_similarity)
 
-# top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
-# print(top_100_lemmas)
+top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
+print(top_100_lemmas)
 
 def all_lemmas_cosine_similarity(lemma_dict, models_dict):
     result_dict = {}
@@ -188,12 +188,17 @@ def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_dist
 # top_100_lemmas_cosine_similarity = all_lemmas_cosine_similarity(top_100_lemmas, year_models)
 # pickle.dump(top_100_lemmas_cosine_similarity,
 
-# create dictionary of cosine similarity (10 years distance) for all lemmas that appear more than 100 times
+# # create dictionary of cosine similarity (10 years distance) for all lemmas that appear more than 100 times
+#
+# lemmas_more_than_10000 = get_lemmas_that_appear_more_than_n(loaded_counts_dict, 10000)
+# more_than_10000_cosine_similarity = all_lemmas_cosine_similarity_years_apart(lemmas_more_than_10000, year_models_2, 10)
+# pickle.dump(more_than_10000_cosine_similarity,
+#             open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity_more_than_10000.p", "wb"))
 
-lemmas_more_than_10000 = get_lemmas_that_appear_more_than_n(loaded_counts_dict, 10000)
-more_than_10000_cosine_similarity = all_lemmas_cosine_similarity_years_apart(lemmas_more_than_10000, year_models_2, 10)
-pickle.dump(more_than_10000_cosine_similarity,
-            open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity_more_than_10000.p", "wb"))
+# dictionary of cosine similarity for the model 10 years after, of all top 100 lemmas
+top_100_similarity_decades = all_lemmas_cosine_similarity_years_apart(top_100_lemmas, year_models_2, 10)
+pickle.dump(top_100_similarity_decades,
+            open('cs/labs/oabend/tomer.navot/year_models_2_cosine_similarity_decades.p', 'wb'))
 
 
 
