@@ -37,7 +37,7 @@ def make_full_counts_df(corpus, file_save_path):
                     parts = line.strip().split('\t')
                     if len(parts) == 3 and re.search("^[a-zA-Z]", parts[1]) is not None:
                         lemma = parts[1].lower()  # Convert the lemma to lowercase
-
+                        pos = parts[2]
                         if parts[2].startswith('n'):
                             pos = "n"
                         if parts[2].startswith('v'):
