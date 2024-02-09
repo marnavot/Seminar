@@ -190,10 +190,10 @@ def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_dist
 
 # create dictionary of cosine similarity (10 years distance) for all lemmas that appear more than 100 times
 
-lemmas_more_than_1000 = get_lemmas_that_appear_more_than_n(loaded_counts_dict, 1000)
-more_than_1000_cosine_similarity = all_lemmas_cosine_similarity_years_apart(lemmas_more_than_1000, year_models_2, 10)
-pickle.dump(more_than_1000_cosine_similarity,
-            open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity_more_than_1000.p", "wb"))
+lemmas_more_than_10000 = get_lemmas_that_appear_more_than_n(loaded_counts_dict, 10000)
+more_than_10000_cosine_similarity = all_lemmas_cosine_similarity_years_apart(lemmas_more_than_10000, year_models_2, 10)
+pickle.dump(more_than_10000_cosine_similarity,
+            open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity_more_than_10000.p", "wb"))
 
 
 
