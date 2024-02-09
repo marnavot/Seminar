@@ -50,10 +50,10 @@ def make_full_counts_df(corpus, file_save_path):
                         if pos in ["n", "v", "adj", "adv"]:
                             lemma_id = (lemma, pos)
                             if lemma_id not in full_df_dict.keys():
-                                full_df_dict[lemma_id] = {"all":1, file_year:1}
+                                full_df_dict[lemma_id] = {"all":1, year:1}
                             else:
                                 full_df_dict[lemma_id]["all"] += 1
-                                full_df_dict[lemma_id][file_year] += 1
+                                full_df_dict[lemma_id][year] += 1
     # lemmas = [lemma_id[0]]
     # full_df = pd.DataFrame()
         print(full_df_dict)
