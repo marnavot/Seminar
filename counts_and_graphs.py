@@ -75,6 +75,8 @@ def make_full_counts_df(corpus, file_save_path):
     for year in years:
         year_list = []
         for lemma in full_df_dict.keys():
+            if year not in full_df_dict[lemma].keys():
+                full_df_dict[lemma][year] = 0
             year_list.append(full_df_dict[lemma][year])
         counts[year] = year_list
 
