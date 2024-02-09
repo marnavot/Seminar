@@ -1,5 +1,5 @@
 import os
-# import pandas as pd
+import pandas as pd
 # import numpy as np
 # from scipy.spatial import distance
 from gensim.models import Word2Vec, KeyedVectors, utils
@@ -15,6 +15,68 @@ import chardet
 
 # Specify the folder where your text files are located
 corpus_path = '/cs/usr/tomer.navot/Word_lemma_PoS'
+
+save_path = '/cs/labs/oabend/tomer.navot'
+
+def make_full_counts_df(corpus, file_save_path):
+    # Create an empty dictionary to store lemma-based noun counts
+    full_df_dict = {}
+    # Iterate through all files in the folder
+    for filename in os.listdir(corpus):
+        file_year = file[:4]
+        file_path = os.path.join(corpus_path, filename)
+        if filename.endswith(".txt"):
+            with open(file_path, 'rb') as file:
+                # Detect the encoding of the file
+                raw_data = file.read()
+                result = chardet.detect(raw_data)
+                encoding = result['encoding']
+            with open(file_path, 'r', encoding=encoding, errors='replace') as file:
+                lines = file.readlines()
+                for line in lines:
+                    parts = line.strip().split('\t')
+                    if len(parts) == 3 and re.search("^[a-zA-Z]", parts[1]) is not None:
+                        lemma = parts[1].lower()  # Convert the lemma to lowercase
+
+                        if parts[2].startswith('n'):
+                            pos = "n"
+                        if parts[2].startswith('v'):
+                            pos = "v"
+                        if parts[2].startswith('j'):
+                            pos = "adj"
+                        if parts[2].startswith('r'):
+                            pos = "adv"
+
+                        lemma_id = (lemma, pos)
+                        if lemma_id not in full_df_dict.keys():
+                            full_df_dict[lemma_id] = {"all":1, file_year:1}
+                        else:
+                            full_df_dict[lemma_id]["all"] += 1
+                            full_df_dict[lemma_id][file_year] += 1
+    # lemmas = [lemma_id[0]]
+    # full_df = pd.DataFrame()
+
+    lemmas = [lemma_id[0] for lemma_id in full_df_dict.keys()]
+    pos = [lemma_id[1] for lemma_id in full_df_dict.keys()]
+    data = {"lemma": lemmas, "pos": pos}
+    years = [str(year) for year in range (1810, 2010)]
+    years.append("all")
+
+    counts = {}
+    for year in years:
+        year_list = []
+        for lemma in full_df_dict.keys():
+            year_list.append(full_df_dict[lemma][year])
+        counts[year] = year_list
+
+    df_full = pd.DataFrame(data)
+    df_full = df_full.assign(**counts)
+    df_full.to_csv(file_save_path, encoding="utf-8", index=False)
+    return df_full
+
+
+full_df_count = make_full_counts_df(corpus_path, f"{save_path}/full_count.csv")
+# print(full_df_count)
 
 
 def make_counts_dict(corpus):
@@ -123,8 +185,8 @@ def load_folder_models(folder):
 # year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
 # year_models = load_folder_models(year_models_folder)
 
-year_models_2_folder = "/cs/labs/oabend/tomer.navot/year_models_2"
-year_models_2 = load_folder_models(year_models_2_folder)
+# year_models_2_folder = "/cs/labs/oabend/tomer.navot/year_models_2"
+# year_models_2 = load_folder_models(year_models_2_folder)
 
 
 # Function to get vectors for lemmas
@@ -166,8 +228,8 @@ def cosine_similarity_years_apart(lemma, models_dict, years_distance=10):
 # print("man cosine similarity:")
 # print(man_cosine_similarity)
 
-top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
-print(top_100_lemmas)
+# top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
+# print(top_100_lemmas)
 
 def all_lemmas_cosine_similarity(lemma_dict, models_dict):
     result_dict = {}
@@ -188,11 +250,11 @@ def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_dist
 # top_100_lemmas_cosine_similarity = all_lemmas_cosine_similarity(top_100_lemmas, year_models)
 # pickle.dump(top_100_lemmas_cosine_similarity,
 
-# create dictionary of cosine similarity (10 years distance) for all lemmas that appear more than 5000 times
-lemmas_more_than_5000 = get_lemmas_that_appear_more_than_n(loaded_counts_dict, 5000)
-more_than_5000_cosine_similarity = all_lemmas_cosine_similarity_years_apart(lemmas_more_than_5000, year_models_2, 10)
-pickle.dump(more_than_5000_cosine_similarity,
-            open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity_more_than_5000.p", "wb"))
+# # create dictionary of cosine similarity (10 years distance) for all lemmas that appear more than 5000 times
+# lemmas_more_than_5000 = get_lemmas_that_appear_more_than_n(loaded_counts_dict, 5000)
+# more_than_5000_cosine_similarity = all_lemmas_cosine_similarity_years_apart(lemmas_more_than_5000, year_models_2, 10)
+# pickle.dump(more_than_5000_cosine_similarity,
+#             open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity_more_than_5000.p", "wb"))
 
 # # dictionary of cosine similarity for the model 10 years after, of all top 100 lemmas
 # top_100_similarity_decades = all_lemmas_cosine_similarity_years_apart(top_100_lemmas, year_models_2, 10)
