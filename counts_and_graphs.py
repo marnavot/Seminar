@@ -22,9 +22,11 @@ def make_full_counts_df(corpus, file_save_path):
     # Create an empty dictionary to store lemma-based noun counts
     full_df_dict = {}
     # Iterate through all files in the folder
+    years = set()
     for filename in os.listdir(corpus):
         year = int(filename.split('_')[1])
         print(year)
+        years.add(year)
         print(filename)
         file_path = os.path.join(corpus_path, filename)
         if filename.endswith(".txt"):
@@ -65,8 +67,9 @@ def make_full_counts_df(corpus, file_save_path):
     lemmas = [lemma_id[0] for lemma_id in full_df_dict.keys()]
     pos = [lemma_id[1] for lemma_id in full_df_dict.keys()]
     data = {"lemma": lemmas, "pos": pos}
-    years = [str(year) for year in range (1810, 2010)]
+    years = sorted(list(years))
     years.append("all")
+    print(years)
 
     counts = {}
     for year in years:
