@@ -12,6 +12,28 @@ corpus_path = '/cs/usr/tomer.navot/Word_lemma_PoS'
 # Set the path to save Word2Vec models
 model_save_path = '/cs/labs/oabend/tomer.navot/decade_models_tryout'
 
+
+# function to split into separate sentences, and remove punctuation and other marks
+def split_into_sentences(lemmas):
+    sentences = []
+    current_sentence = []
+
+    for lemma in lemmas:
+        if lemma in [".", "?", "!"]:
+            if current_sentence:
+                sentences.append(current_sentence)
+                current_sentence = []
+        else:
+            if lemma not in string.punctuation and lemma not in ["##", '\x00']:
+                current_sentence.append(lemma)
+
+    # Append the last sentence if it exists
+    if current_sentence:
+        sentences.append(current_sentence)
+
+    return sentences
+
+
 # Function to read and preprocess the content of a file
 def read_file(file_path):
     with open(file_path, 'rb') as file:
@@ -24,7 +46,8 @@ def read_file(file_path):
         lines = file.readlines()
         # Extract lemma from the second column
         words = [line.split('\t')[1].lower() for line in lines if
-                 len(line.split('\t')) > 1 and line.strip() and line.split('\t')[1].lower() not in string.punctuation]
+                 len(line.split('\t')) > 1 and line.strip() and line.split('\t')[1].lower()]
+        words = split_into_sentences(words)
 
         return words
 
@@ -61,6 +84,8 @@ for i in range(10):
 
             # Read the files for the current slot
             sentences = [read_file(file) for file in slot_files if os.path.isfile(file)]
+            sentences = [inner_list for file_lists in sentences for inner_list in file_lists]
+            random.shuffle(sentences)
             print(random.sample(sentences, 10))
 
             # Build or update the vocabulary
