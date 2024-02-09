@@ -23,7 +23,7 @@ def make_full_counts_df(corpus, file_save_path):
     full_df_dict = {}
     # Iterate through all files in the folder
     for filename in os.listdir(corpus):
-        file_year = file[:4]
+        file_year = filename[:4]
         file_path = os.path.join(corpus_path, filename)
         if filename.endswith(".txt"):
             with open(file_path, 'rb') as file:
