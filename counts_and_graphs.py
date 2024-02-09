@@ -23,7 +23,8 @@ def make_full_counts_df(corpus, file_save_path):
     full_df_dict = {}
     # Iterate through all files in the folder
     for filename in os.listdir(corpus):
-        file_year = filename[:4]
+        year = int(filename.split('_')[1])
+        print(year)
         file_path = os.path.join(corpus_path, filename)
         if filename.endswith(".txt"):
             with open(file_path, 'rb') as file:
@@ -55,6 +56,7 @@ def make_full_counts_df(corpus, file_save_path):
                                 full_df_dict[lemma_id][file_year] += 1
     # lemmas = [lemma_id[0]]
     # full_df = pd.DataFrame()
+        print(full_df_dict)
 
     lemmas = [lemma_id[0] for lemma_id in full_df_dict.keys()]
     pos = [lemma_id[1] for lemma_id in full_df_dict.keys()]
