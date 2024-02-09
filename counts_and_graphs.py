@@ -24,7 +24,7 @@ def make_full_counts_df(corpus, file_save_path):
     # Iterate through all files in the folder
     years = set()
     for filename in os.listdir(corpus):
-        year = int(filename.split('_')[1])
+        year = filename.split('_')[1]
         print(year)
         years.add(year)
         print(filename)
