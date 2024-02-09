@@ -198,7 +198,7 @@ def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_dist
 # dictionary of cosine similarity for the model 10 years after, of all top 100 lemmas
 top_100_similarity_decades = all_lemmas_cosine_similarity_years_apart(top_100_lemmas, year_models_2, 10)
 pickle.dump(top_100_similarity_decades,
-            open('cs/labs/oabend/tomer.navot/year_models_2_cosine_similarity_decades.p', 'wb'))
+            open('/cs/labs/oabend/tomer.navot/year_models_2_cosine_similarity_decades.p', 'wb'))
 
 
 
