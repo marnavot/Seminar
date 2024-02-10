@@ -85,7 +85,7 @@ random.seed(42)
 corpus_path = '/cs/usr/tomer.navot/Word_lemma_PoS'
 
 # Set the path to save Word2Vec models
-model_save_path = '/cs/labs/oabend/tomer.navot/year_models_2/'
+model_save_path = '/cs/labs/oabend/tomer.navot/year_models_final/'
 
 # function to split into separate sentences, and remove punctuation and other marks
 def split_into_sentences(lemmas):
