@@ -10,7 +10,7 @@ import random
 corpus_path = '/cs/usr/tomer.navot/Word_lemma_PoS'
 
 # Set the path to save Word2Vec models
-model_save_path = '/cs/labs/oabend/tomer.navot/decade_models_tryout'
+model_save_path = '/cs/labs/oabend/tomer.navot/decade_models_final'
 
 
 # function to split into separate sentences, and remove punctuation and other marks
@@ -62,7 +62,7 @@ for i in range(10):
     if not any(os.scandir(slot_path)):
         model = Word2Vec(window=5, min_count=50, workers=6)
 
-    slots = [(year, year + 10) for year in range(1850 + i, 1900, 10)]
+    slots = [(year, year + 10) for year in range(1850 + i, 2010, 10)]
     if i != 0:
         first_slot = (1850, 1850 + i)
         slots.insert(0, first_slot)
