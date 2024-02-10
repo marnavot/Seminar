@@ -140,10 +140,10 @@ last_available_path = os.path.join(model_save_path, f'{last_available_year}_mode
 if os.path.exists(last_available_path):
     model = Word2Vec.load(last_available_path)
 else:
-    model = Word2Vec(window=5, min_count=10, workers=7)
+    model = Word2Vec(window=5, min_count=50, workers=6)
 
 # Loop through the years and train the Word2Vec model incrementally
-for year in range(last_available_year + 1, 2011):  # Adjust the range based on your available years
+for year in range(last_available_year + 1, 2010):  # Adjust the range based on your available years
     print(f"model of {year} starting")
     year_model_path = os.path.join(model_save_path, f'{year}_model.model')
 
@@ -152,6 +152,7 @@ for year in range(last_available_year + 1, 2011):  # Adjust the range based on y
 
     # Read the files for the current year
     sentences = [read_file(file) for file in year_files if os.path.isfile(file)]
+    # flatten the sentences list and shuffle their order
     sentences = [inner_list for file_lists in sentences for inner_list in file_lists]
     random.shuffle(sentences)
     # print(sentences[:10])
