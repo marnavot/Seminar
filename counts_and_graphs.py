@@ -275,7 +275,7 @@ print(list(year_models_organized_cosine_sim.items())[:10])
 lemmas_list = [key[0] for key in year_models_organized_cosine_sim.keys()]
 pos_list = [key[1] for key in year_models_organized_cosine_sim.keys()]
 year_data = {"lemma": lemmas_list, "pos": pos_list}
-for year in range(1850, 2010):
+for year in year_models_organized_cosine_sim[('man', 'n')].keys():
     year_data[f"{year}"] = [year_models_organized_cosine_sim[lemma_tup][year] for lemma_tup
                             in year_models_organized_cosine_sim.keys()]
 
