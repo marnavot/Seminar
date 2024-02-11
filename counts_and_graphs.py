@@ -18,6 +18,7 @@ corpus_path = '/cs/usr/tomer.navot/Word_lemma_PoS'
 
 save_path = '/cs/labs/oabend/tomer.navot'
 
+
 def make_full_counts_df(corpus, file_save_path):
     # Create an empty dictionary to store lemma-based noun counts
     full_df_dict = {}
@@ -53,15 +54,15 @@ def make_full_counts_df(corpus, file_save_path):
                         if pos in ["n", "v", "adj", "adv"]:
                             lemma_id = (lemma, pos)
                             if lemma_id not in full_df_dict.keys():
-                                full_df_dict[lemma_id] = {"all":1, year:1}
+                                full_df_dict[lemma_id] = {"all": 1, year: 1}
                             else:
                                 full_df_dict[lemma_id]["all"] += 1
                                 if year not in full_df_dict[lemma_id].keys():
                                     full_df_dict[lemma_id][year] = 1
                                 else:
                                     full_df_dict[lemma_id][year] += 1
-    # lemmas = [lemma_id[0]]
-    # full_df = pd.DataFrame()
+        # lemmas = [lemma_id[0]]
+        # full_df = pd.DataFrame()
         print(f"finished {filename}")
 
     lemmas = [lemma_id[0] for lemma_id in full_df_dict.keys()]
@@ -192,7 +193,7 @@ def load_folder_models(folder):
     return models_dict
 
 
-
+#
 # year_models_folder = "/cs/labs/oabend/tomer.navot/year_models"
 # year_models = load_folder_models(year_models_folder)
 
@@ -235,7 +236,6 @@ def cosine_similarity_years_apart(lemma, models_dict, years_distance=10):
     return cosine_sim
 
 
-
 # top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
 # print(top_100_lemmas)
 
@@ -258,9 +258,32 @@ def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_dist
 # all_lemmas = get_top_n_lemmas(loaded_counts_dict, len(loaded_counts_dict))
 # all_n_v_adj = {pos:inner_dict for pos, inner_dict in all_lemmas if pos in ["n", "v", "adj"]}
 
-all_n_v_adj = {pos:inner_dict.keys() for pos, inner_dict in loaded_counts_dict.items() if pos in ["n", "v", "adj"]}
+all_n_v_adj = {pos: inner_dict.keys() for pos, inner_dict in loaded_counts_dict.items() if pos in ["n", "v", "adj"]}
 
-print(all_n_v_adj)
+# load year models
+year_models_folder = "/cs/labs/oabend/tomer.navot/year_models_final"
+year_models = load_folder_models(year_models_folder)
+print("loaded year models")
+
+# calculated all vocab cosine similarity
+year_models_all_cosine_sim = all_lemmas_cosine_similarity_years_apart(all_n_v_adj, year_models, years_distance=10)
+print("calculated year models' cosine similarity")
+year_models_organized_cosine_sim = {(lemma, pos): cosine_sim for pos, inner_dict in year_models_all_cosine_sim.items()
+                                    for lemma, cosine_sim in inner_dict.items()}
+print(year_models_organized_cosine_sim.items()[:10])
+
+lemmas_list = [key[0] for key in year_models_organized_cosine_sim.keys()]
+pos_list = [key[1] for key in year_models_organized_cosine_sim.keys()]
+year_data = {"lemma": lemmas_list, "pos": pos_list}
+for year in range(1850, 2010):
+    year_data[f"{year}"] = [cos_sim[year] for cos_sim in year_models_all_cosine_sim.values()]
+
+year_cosine_sim_df = pd.DataFrame(data=year_data)
+year_cosine_sim_df.to_csv("/cs/labs/oabend/tomer.navot/year_cosine_sim_final.csv", index=False)
+
+
+# decade_models_folder = "/cs/labs/oabend/tomer.navot/decade_models_final"
+# for i in range(10):
 
 
 # # create dictionary of cosine similarity of all 100 top lemmas, with year models
@@ -277,7 +300,6 @@ print(all_n_v_adj)
 # top_100_similarity_decades = all_lemmas_cosine_similarity_years_apart(top_100_lemmas, year_models_2, 10)
 # pickle.dump(top_100_similarity_decades,
 #             open('/cs/labs/oabend/tomer.navot/year_models_2_cosine_similarity_decades.p', 'wb'))
-
 
 
 # with open("/cs/labs/oabend/tomer.navot/year_models_cosine_similarity.p", 'rb') as file:
