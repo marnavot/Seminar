@@ -270,7 +270,7 @@ year_models_all_cosine_sim = all_lemmas_cosine_similarity_years_apart(all_n_v_ad
 print("calculated year models' cosine similarity")
 year_models_organized_cosine_sim = {(lemma, pos): cosine_sim for pos, inner_dict in year_models_all_cosine_sim.items()
                                     for lemma, cosine_sim in inner_dict.items()}
-print(year_models_organized_cosine_sim.items()[:10])
+print(list(year_models_organized_cosine_sim.items())[:10])
 
 lemmas_list = [key[0] for key in year_models_organized_cosine_sim.keys()]
 pos_list = [key[1] for key in year_models_organized_cosine_sim.keys()]
