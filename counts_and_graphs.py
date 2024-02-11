@@ -86,7 +86,7 @@ def make_full_counts_df(corpus, file_save_path):
     return df_full
 
 
-full_df_count = make_full_counts_df(corpus_path, f"{save_path}/full_count.csv")
+# full_df_count = make_full_counts_df(corpus_path, f"{save_path}/full_count.csv")
 # print(full_df_count)
 
 
@@ -235,9 +235,6 @@ def cosine_similarity_years_apart(lemma, models_dict, years_distance=10):
     return cosine_sim
 
 
-# man_cosine_similarity = calculate_cosine_similarity("man", year_models)
-# print("man cosine similarity:")
-# print(man_cosine_similarity)
 
 # top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
 # print(top_100_lemmas)
@@ -255,6 +252,13 @@ def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_dist
         result_dict[pos] = {lemma: cosine_similarity_years_apart(lemma, models_dict, years_distance)
                             for lemma in inner_list}
     return result_dict
+
+
+# get all nouns, verbs and adjectives
+all_lemmas = get_top_n_lemmas(loaded_counts_dict, len(loaded_counts_dict))
+all_n_v_adj = {pos:inner_dict for pos, inner_dict in all_lemmas if pos in ["n", "v", "adj"]}
+
+print(all_n_v_adj)
 
 
 # # create dictionary of cosine similarity of all 100 top lemmas, with year models
