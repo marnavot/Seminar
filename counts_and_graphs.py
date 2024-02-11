@@ -258,7 +258,7 @@ def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_dist
 # all_lemmas = get_top_n_lemmas(loaded_counts_dict, len(loaded_counts_dict))
 # all_n_v_adj = {pos:inner_dict for pos, inner_dict in all_lemmas if pos in ["n", "v", "adj"]}
 
-all_n_v_adj = {pos:inner_dict.keys() for pos, inner_dict in all_lemmas.items() if pos in ["n", "v", "adj"]}
+all_n_v_adj = {pos:inner_dict.keys() for pos, inner_dict in loaded_counts_dict.items() if pos in ["n", "v", "adj"]}
 
 print(all_n_v_adj)
 
