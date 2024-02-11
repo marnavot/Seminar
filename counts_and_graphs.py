@@ -276,7 +276,8 @@ lemmas_list = [key[0] for key in year_models_organized_cosine_sim.keys()]
 pos_list = [key[1] for key in year_models_organized_cosine_sim.keys()]
 year_data = {"lemma": lemmas_list, "pos": pos_list}
 for year in range(1850, 2010):
-    year_data[f"{year}"] = [cos_sim[year] for cos_sim in year_models_all_cosine_sim.values()]
+    year_data[f"{year}"] = [year_models_organized_cosine_sim[lemma_tup][year] for lemma_tup
+                            in year_models_organized_cosine_sim.keys()]
 
 year_cosine_sim_df = pd.DataFrame(data=year_data)
 year_cosine_sim_df.to_csv("/cs/labs/oabend/tomer.navot/year_cosine_sim_final.csv", index=False)
