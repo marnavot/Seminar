@@ -257,14 +257,19 @@ def all_lemmas_cosine_similarity_years_apart(lemma_dict, models_dict, years_dist
 # get all nouns, verbs and adjectives
 all_n_v_adj = {pos: inner_dict.keys() for pos, inner_dict in loaded_counts_dict.items() if pos in ["n", "v", "adj"]}
 
-# # load year models
-# year_models_folder = "/cs/labs/oabend/tomer.navot/year_models_final"
-# year_models = load_folder_models(year_models_folder)
-# print("loaded year models")
-#
-# # calculated all vocab cosine similarity
-# year_models_all_cosine_sim = all_lemmas_cosine_similarity_years_apart(all_n_v_adj, year_models, years_distance=10)
-# print("calculated year models' cosine similarity")
+# load year models
+year_models_folder = "/cs/labs/oabend/tomer.navot/year_models_final"
+year_models = load_folder_models(year_models_folder)
+print("loaded year models")
+
+# calculate all vocab cosine similarity
+year_models_all_cosine_sim = all_lemmas_cosine_similarity_years_apart(all_n_v_adj, year_models, years_distance=10)
+print("calculated year models' cosine similarity")
+pickle.dump(year_models_all_cosine_sim,
+             open("/cs/labs/oabend/tomer.navot/year_models_cosine_sim_final.p", "wb"))
+
+
+
 # year_models_organized_cosine_sim = {(lemma, pos): cosine_sim for pos, inner_dict in year_models_all_cosine_sim.items()
 #                                     for lemma, cosine_sim in inner_dict.items()}
 # print(list(year_models_organized_cosine_sim.items())[:10])
@@ -286,20 +291,23 @@ for i in range(10):
 
     bin_models_all_cosine_sim = all_lemmas_cosine_similarity(all_n_v_adj, models)
     print(f"calculated bin {i} models' cosine similarity")
-    bin_models_organized_cosine_sim = {(lemma, pos): cosine_sim for pos, inner_dict in
-                                       bin_models_all_cosine_sim.items()
-                                       for lemma, cosine_sim in inner_dict.items()}
-    print(list(bin_models_organized_cosine_sim.items())[:10])
+    pickle.dump(bin_models_all_cosine_sim,
+                open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_sim_final.p", "wb"))
 
-    lemmas_list = [key[0] for key in bin_models_organized_cosine_sim.keys()]
-    pos_list = [key[1] for key in bin_models_organized_cosine_sim.keys()]
-    bin_data = {"lemma": lemmas_list, "pos": pos_list}
-    for years in bin_models_organized_cosine_sim[('man', 'n')].keys():
-        bin_data[f"{years}"] = [bin_models_organized_cosine_sim[lemma_tup][years] for lemma_tup
-                                in bin_models_organized_cosine_sim.keys()]
+    # bin_models_organized_cosine_sim = {(lemma, pos): cosine_sim for pos, inner_dict in
+    #                                    bin_models_all_cosine_sim.items()
+    #                                    for lemma, cosine_sim in inner_dict.items()}
+    # print(list(bin_models_organized_cosine_sim.items())[:10])
 
-    bin_cosine_sim_df = pd.DataFrame(data=bin_data)
-    bin_cosine_sim_df.to_csv(f"/cs/labs/oabend/tomer.navot/bin_{i}_cosine_sim_final.csv", index=False)
+    # lemmas_list = [key[0] for key in bin_models_organized_cosine_sim.keys()]
+    # pos_list = [key[1] for key in bin_models_organized_cosine_sim.keys()]
+    # bin_data = {"lemma": lemmas_list, "pos": pos_list}
+    # for years in bin_models_organized_cosine_sim[('man', 'n')].keys():
+    #     bin_data[f"{years}"] = [bin_models_organized_cosine_sim[lemma_tup][years] for lemma_tup
+    #                             in bin_models_organized_cosine_sim.keys()]
+    #
+    # bin_cosine_sim_df = pd.DataFrame(data=bin_data)
+    # bin_cosine_sim_df.to_csv(f"/cs/labs/oabend/tomer.navot/bin_{i}_cosine_sim_final.csv", index=False)
 
 
 # # create dictionary of cosine similarity of all 100 top lemmas, with year models
