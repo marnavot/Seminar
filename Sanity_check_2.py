@@ -115,9 +115,9 @@ evaluate_models(year_models_path)
 
 for i in range(10):
     models_path = f"/cs/labs/oabend/tomer.navot/decade_models_final/{i}/"
-    evaluate_models(models_path, "wordsim_year_models")
+    evaluate_models(models_path)
 
-plot_correlations(year_models_path)
+plot_correlations(year_models_path, "wordsim_year_models")
 for i in range(10):
     plot_correlations(f"/cs/labs/oabend/tomer.navot/decade_models_final/{i}/",
                       f"wordsim_decade_models_bin_{i}")
