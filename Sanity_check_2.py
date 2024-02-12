@@ -65,7 +65,13 @@ def evaluate_model(path, file_name):
     model = Word2Vec.load(path)
     spearman_result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))[1].statistic
     pearson_result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))[0].statistic
-    with open(f'/cs/labs/oabend/tomer.navot/{file_name}.txt', 'w') as f:
+
+    if os.path.exists(f"/cs/labs/oabend/tomer.navot/{file_name}"):
+        append_write = 'a'  # append if already exists
+    else:
+        append_write = 'w'  # make a new file if not
+
+    with open(f'/cs/labs/oabend/tomer.navot/{file_name}.txt', append_write) as f:
         f.write(f"Pearson correlation of {path}: {pearson_result}")
         f.write(f"Spearman correlation of {path}: {spearman_result}")
         if 'man' in model.wv.key_to_index:
