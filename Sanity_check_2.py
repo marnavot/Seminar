@@ -94,7 +94,7 @@ def evaluate_models(folder_path, file_name):
 
 
 def plot_correlations(folder_path, plot_name):
-    spearman_correlations, pearson_correlations = evaluate_models(folder_path)
+    spearman_correlations, pearson_correlations = evaluate_models(folder_path, plot_name)
 
     # Extract years from filenames (taking the first four characters)
     years = [int(model[:4]) for model in sorted(os.listdir(folder_path))]
@@ -109,14 +109,14 @@ def plot_correlations(folder_path, plot_name):
     plt.show()
 
 
-# Example usage:
+# # Example usage:
 year_models_path = "/cs/labs/oabend/tomer.navot/year_models_final//"
-# plot_correlations(year_models_path, plot_name="year_models_correlations")
-evaluate_models(year_models_path, "wordsim_year_models")
-
-for i in range(10):
-    models_path = f"/cs/labs/oabend/tomer.navot/decade_models_final/{i}/"
-    evaluate_models(models_path, f"wordsim_decade_models_{i}")
+# # plot_correlations(year_models_path, plot_name="year_models_correlations")
+# evaluate_models(year_models_path, "wordsim_year_models")
+#
+# for i in range(10):
+#     models_path = f"/cs/labs/oabend/tomer.navot/decade_models_final/{i}/"
+#     evaluate_models(models_path, f"wordsim_decade_models_{i}")
 
 plot_correlations(year_models_path, "wordsim_year_models")
 for i in range(10):
