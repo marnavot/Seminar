@@ -66,12 +66,7 @@ def evaluate_model(path, file_name):
     spearman_result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))[1].statistic
     pearson_result = model.wv.evaluate_word_pairs(datapath('/cs/labs/oabend/tomer.navot/wordsim353.tsv'))[0].statistic
 
-    if os.path.exists(f"/cs/labs/oabend/tomer.navot/{file_name}"):
-        append_write = 'a'  # append if already exists
-    else:
-        append_write = 'w'  # make a new file if not
-
-    with open(f'/cs/labs/oabend/tomer.navot/{file_name}.txt', append_write) as f:
+    with open(f'/cs/labs/oabend/tomer.navot/{file_name}.txt', "a") as f:
         f.write(f"Pearson correlation of {path}: {pearson_result}")
         f.write(f"Spearman correlation of {path}: {spearman_result}")
         if 'man' in model.wv.key_to_index:
@@ -128,5 +123,3 @@ plot_correlations(year_models_path, "wordsim_year_models")
 for i in range(10):
     plot_correlations(f"/cs/labs/oabend/tomer.navot/decade_models_final/{i}/",
                       f"wordsim_decade_models_bin_{i}")
-
-
