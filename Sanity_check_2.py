@@ -100,6 +100,9 @@ def plot_correlations(folder_path, plot_name):
     # Extract years from filenames (taking the first four characters)
     years = [int(model[:4]) for model in sorted(os.listdir(folder_path))]
 
+    # Create a new figure
+    plt.figure()
+
     plt.plot(years, spearman_correlations, label='Spearman')
     plt.plot(years, pearson_correlations, label='Pearson')
     plt.xlabel('Year')
