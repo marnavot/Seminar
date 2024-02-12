@@ -71,6 +71,7 @@ def evaluate_model(path):
         print(f"most similar words to 'man' are: {model.wv.most_similar('man')}")
     if 'gay' in model.wv.key_to_index:
         print(f"most similar words to 'gay' are: {model.wv.most_similar('gay')}")
+    print("\n")
     return spearman_result, pearson_result
 
 
@@ -87,6 +88,7 @@ def evaluate_models(folder_path):
 
     print(f"Spearman correlations of {folder_path}: {spearman_correlations}")
     print(f"Pearson correlation of {folder_path}: {pearson_correlations}")
+    print("\n")
     return spearman_correlations, pearson_correlations
 
 
@@ -113,6 +115,11 @@ evaluate_models(year_models_path)
 
 for i in range(10):
     models_path = f"/cs/labs/oabend/tomer.navot/decade_models_final/{i}/"
-    evaluate_models(models_path)
+    evaluate_models(models_path, "wordsim_year_models")
+
+plot_correlations(year_models_path)
+for i in range(10):
+    plot_correlations(f"/cs/labs/oabend/tomer.navot/decade_models_final/{i}/",
+                      f"wordsim_decade_models_bin_{i}")
 
 
