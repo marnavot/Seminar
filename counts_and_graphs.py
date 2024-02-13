@@ -290,10 +290,16 @@ for i in range(10):
     #             open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_sim_final_top_100.p", "wb"))
 
     gay_similarity = calculate_cosine_similarity("gay", models)
-    print(f"similarity for bins {i} 'gay' vectors:{gay_similarity}")
-
     broadcast_similarity = calculate_cosine_similarity("broadcast", models)
-    print(f"similarity for bins {i} 'broadcast' vectors:{broadcast_similarity}")
+    years = sorted(list(models.keys()))
+    for i in range(len(years)):
+        model = models[years[i]]
+        print(f"cosine similarity of 'gay' between {years[i]} and {years[i+1]}: {gay_similarity[years[i]]}")
+        f"most similar words to 'gay' in {years[i]} are: {model.wv.most_similar('gay')}"
+
+        print(f"cosine similarity of 'broadcast' between {years[i]} and {years[i + 1]}: {broadcast_similarity[years[i]]}")
+        f"most similar words to 'gay' in {years[i]} are: {model.wv.most_similar('broadcast')}"
+
 
 
     # bin_models_all_cosine_sim = all_lemmas_cosine_similarity(all_n_v_adj, models)
