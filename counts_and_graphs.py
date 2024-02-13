@@ -292,7 +292,7 @@ for i in range(10):
     gay_similarity = calculate_cosine_similarity("gay", models)
     broadcast_similarity = calculate_cosine_similarity("broadcast", models)
     years = sorted(list(models.keys()))
-    for i in range(len(years)):
+    for i in range(len(years) - 1):
         model = models[years[i]]
         print(f"cosine similarity of 'gay' between {years[i]} and {years[i+1]}: {gay_similarity[years[i]]}")
         if 'gay' in model.wv.key_to_index:
@@ -301,7 +301,7 @@ for i in range(10):
         print(f"cosine similarity of 'broadcast' between {years[i]} and {years[i + 1]}: {broadcast_similarity[years[i]]}")
         if 'broadcast' in model.wv.key_to_index:
             print(f"most similar words to 'broadcast' in {years[i]} are: {model.wv.most_similar('broadcast')}")
-
+        print("\n")
 
 
     # bin_models_all_cosine_sim = all_lemmas_cosine_similarity(all_n_v_adj, models)
