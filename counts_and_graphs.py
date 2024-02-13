@@ -289,11 +289,11 @@ for i in range(10):
     # pickle.dump(bin_models_top_100_cosine_sim,
     #             open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_sim_final_top_100.p", "wb"))
 
-    gay_vectors = get_vectors("gay", models)
-    print(f"decade bins {i} 'gay' vectors:{gay_vectors}")
+    gay_similarity = calculate_cosine_similarity("gay", models)
+    print(f"similarity for bins {i} 'gay' vectors:{gay_similarity}")
 
-    broadcast_vectors = get_vectors("broadcast", models)
-    print(f"decade bins {i} 'broadcast' vectors:{broadcast_vectors}")
+    broadcast_similarity = calculate_cosine_similarity("broadcast", models)
+    print(f"similarity for bins {i} 'broadcast' vectors:{broadcast_similarity}")
 
 
     # bin_models_all_cosine_sim = all_lemmas_cosine_similarity(all_n_v_adj, models)
