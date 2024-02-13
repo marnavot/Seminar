@@ -296,11 +296,11 @@ for i in range(10):
         model = models[years[i]]
         print(f"cosine similarity of 'gay' between {years[i]} and {years[i+1]}: {gay_similarity[years[i]]}")
         if 'gay' in model.wv.key_to_index:
-            f"most similar words to 'gay' in {years[i]} are: {model.wv.most_similar('gay')}"
+            print(f"most similar words to 'gay' in {years[i]} are: {model.wv.most_similar('gay')}")
 
         print(f"cosine similarity of 'broadcast' between {years[i]} and {years[i + 1]}: {broadcast_similarity[years[i]]}")
         if 'broadcast' in model.wv.key_to_index:
-            f"most similar words to 'broadcast' in {years[i]} are: {model.wv.most_similar('broadcast')}"
+            print(f"most similar words to 'broadcast' in {years[i]} are: {model.wv.most_similar('broadcast')}")
 
 
 
