@@ -298,7 +298,7 @@ for i in range(10):
         f"most similar words to 'gay' in {years[i]} are: {model.wv.most_similar('gay')}"
 
         print(f"cosine similarity of 'broadcast' between {years[i]} and {years[i + 1]}: {broadcast_similarity[years[i]]}")
-        f"most similar words to 'gay' in {years[i]} are: {model.wv.most_similar('broadcast')}"
+        f"most similar words to 'broadcast' in {years[i]} are: {model.wv.most_similar('broadcast')}"
 
 
 
