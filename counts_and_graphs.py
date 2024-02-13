@@ -250,11 +250,11 @@ year_models_folder = "/cs/labs/oabend/tomer.navot/year_models_final"
 year_models = load_folder_models(year_models_folder)
 print("loaded year models")
 
-# calculate top 100 cosine similarity
-year_models_top_100_cosine_sim = all_lemmas_cosine_similarity_years_apart(top_100_lemmas, year_models, years_distance=10)
-print("calculated year models top 100 cosine sim")
-pickle.dump(year_models_top_100_cosine_sim,
-            open("/cs/labs/oabend/tomer.navot/year_models_final_top_100_cosine_sim.p", "wb"))
+# # calculate top 100 cosine similarity
+# year_models_top_100_cosine_sim = all_lemmas_cosine_similarity_years_apart(top_100_lemmas, year_models, years_distance=10)
+# print("calculated year models top 100 cosine sim")
+# pickle.dump(year_models_top_100_cosine_sim,
+#             open("/cs/labs/oabend/tomer.navot/year_models_final_top_100_cosine_sim.p", "wb"))
 
 
 # # calculate all vocab cosine similarity
@@ -284,10 +284,16 @@ for i in range(10):
     models = load_folder_models(f"{decade_models_folder}/{i}")
     print(f"loaded bin {i} models")
 
-    bin_models_top_100_cosine_sim = all_lemmas_cosine_similarity(top_100_lemmas, models)
-    print(f"calculated bin {i} models' cosine similarity top 100")
-    pickle.dump(bin_models_top_100_cosine_sim,
-                open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_sim_final_top_100.p", "wb"))
+    # bin_models_top_100_cosine_sim = all_lemmas_cosine_similarity(top_100_lemmas, models)
+    # print(f"calculated bin {i} models' cosine similarity top 100")
+    # pickle.dump(bin_models_top_100_cosine_sim,
+    #             open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_sim_final_top_100.p", "wb"))
+
+    gay_vectors = get_vectors("gay", models)
+    print(f"decade bins {i} 'gay' vectors:{gay_vectors}")
+
+    broadcast_vectors = get_vectors("broadcast", models)
+    print(f"decade bins {i} 'broadcast' vectors:{broadcast_vectors}")
 
 
     # bin_models_all_cosine_sim = all_lemmas_cosine_similarity(all_n_v_adj, models)
