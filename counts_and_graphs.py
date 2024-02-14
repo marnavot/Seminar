@@ -396,6 +396,7 @@ for i in range(1850, 2010):
     print(last_digit)
     vocab_dict[i] = list(model_bins_dict[last_digit][i].wv.vocab.keys())
 
+pickle.dump(vocab_dict, open("/cs/labs/oabend/tomer.navot/vocab_dict.p", "wb"))
 print(f"1854:{vocab_dict[1854]}")
 print(f"1954:{vocab_dict[1954]}")
 
