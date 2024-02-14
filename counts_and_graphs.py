@@ -224,8 +224,8 @@ def cosine_similarity_years_apart(lemma, models_dict, years_distance=10):
     return cosine_sim
 
 
-top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
-print(top_100_lemmas)
+# top_100_lemmas = get_top_n_lemmas(loaded_counts_dict, 100)
+# print(top_100_lemmas)
 
 def all_lemmas_cosine_similarity(lemma_dict, models_dict):
     result_dict = {}
@@ -279,30 +279,30 @@ print("loaded year models")
 # year_cosine_sim_df = pd.DataFrame(data=year_data)
 # year_cosine_sim_df.to_csv("/cs/labs/oabend/tomer.navot/year_cosine_sim_final.csv", index=False)
 
-decade_models_folder = "/cs/labs/oabend/tomer.navot/decade_models_final"
-for i in range(10):
-    models = load_folder_models(f"{decade_models_folder}/{i}")
-    print(f"loaded bin {i} models")
-
-    # bin_models_top_100_cosine_sim = all_lemmas_cosine_similarity(top_100_lemmas, models)
-    # print(f"calculated bin {i} models' cosine similarity top 100")
-    # pickle.dump(bin_models_top_100_cosine_sim,
-    #             open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_sim_final_top_100.p", "wb"))
-
-    gay_similarity = calculate_cosine_similarity("gay", models)
-    broadcast_similarity = calculate_cosine_similarity("broadcast", models)
-    years = sorted(list(models.keys()))
-    for i in range(len(years) - 1):
-        model = models[years[i]]
-        print(f"cosine similarity of 'gay' between {years[i]} and {years[i+1]}: {gay_similarity[years[i]]}")
-        if 'gay' in model.wv.key_to_index:
-            print(f"most similar words to 'gay' in {years[i]} are: {model.wv.most_similar('gay')}")
-
-        print(f"cosine similarity of 'broadcast' between {years[i]} and {years[i + 1]}: {broadcast_similarity[years[i]]}")
-        if 'broadcast' in model.wv.key_to_index:
-            print(f"most similar words to 'broadcast' in {years[i]} are: {model.wv.most_similar('broadcast')}")
-        print("\n")
-
+# decade_models_folder = "/cs/labs/oabend/tomer.navot/decade_models_final"
+# for i in range(10):
+#     models = load_folder_models(f"{decade_models_folder}/{i}")
+#     print(f"loaded bin {i} models")
+#
+#     # bin_models_top_100_cosine_sim = all_lemmas_cosine_similarity(top_100_lemmas, models)
+#     # print(f"calculated bin {i} models' cosine similarity top 100")
+#     # pickle.dump(bin_models_top_100_cosine_sim,
+#     #             open(f"/cs/labs/oabend/tomer.navot/decade_models_bin_{i}_cosine_sim_final_top_100.p", "wb"))
+#
+#     gay_similarity = calculate_cosine_similarity("gay", models)
+#     broadcast_similarity = calculate_cosine_similarity("broadcast", models)
+#     years = sorted(list(models.keys()))
+#     for i in range(len(years) - 1):
+#         model = models[years[i]]
+#         print(f"cosine similarity of 'gay' between {years[i]} and {years[i+1]}: {gay_similarity[years[i]]}")
+#         if 'gay' in model.wv.key_to_index:
+#             print(f"most similar words to 'gay' in {years[i]} are: {model.wv.most_similar('gay')}")
+#
+#         print(f"cosine similarity of 'broadcast' between {years[i]} and {years[i + 1]}: {broadcast_similarity[years[i]]}")
+#         if 'broadcast' in model.wv.key_to_index:
+#             print(f"most similar words to 'broadcast' in {years[i]} are: {model.wv.most_similar('broadcast')}")
+#         print("\n")
+#
 
     # bin_models_all_cosine_sim = all_lemmas_cosine_similarity(all_n_v_adj, models)
     # print(f"calculated bin {i} models' cosine similarity")
@@ -383,3 +383,20 @@ def get_top_k_similar_vectors(lemma, model, k=25):
     return similar_vectors
 #
 # print(get_top_k_similar_vectors("gay", model_1990))
+
+# get vocabularies of all decade models:
+decade_models_folder = "/cs/labs/oabend/tomer.navot/decade_models_final"
+model_bins_dict = {}
+for i in range(10):
+    model_bins_dict[i] = load_folder_models(f"{decade_models_folder}/{i}")
+
+vocab_dict = {}
+for i in range(1850, 2010):
+    last_digit = i % 10
+    print(last_digit)
+    vocab_dict[i] = list(model_bins_dict[last_digit][i].wv.vocab.keys())
+
+print(f"1854:{vocab_dict[1854]}")
+print(f"1954:{vocab_dict[1954]}")
+
+
