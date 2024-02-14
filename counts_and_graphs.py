@@ -394,7 +394,7 @@ vocab_dict = {}
 for i in range(1850, 2010):
     last_digit = i % 10
     print(last_digit)
-    vocab_dict[i] = list(model_bins_dict[last_digit][i].wv.vocab.keys())
+    vocab_dict[i] = list(model_bins_dict[last_digit][i].wv.index_to_key
 
 pickle.dump(vocab_dict, open("/cs/labs/oabend/tomer.navot/vocab_dict.p", "wb"))
 print(f"1854:{vocab_dict[1854]}")
