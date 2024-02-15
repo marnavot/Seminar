@@ -391,13 +391,13 @@ for i in range(10):
     model_bins_dict[i] = load_folder_models(f"{decade_models_folder}/{i}")
 
 vocab_dict = {}
-for i in range(1850, 2010):
+for i in range(1820, 2010):
     last_digit = i % 10
     print(last_digit)
     vocab_dict[i] = list(model_bins_dict[last_digit][i].wv.index_to_key)
 
 pickle.dump(vocab_dict, open("/cs/labs/oabend/tomer.navot/vocab_dict.p", "wb"))
-print(f"1854:{vocab_dict[1854]}")
+print(f"1854:{vocab_dict[1824]}")
 print(f"1954:{vocab_dict[1954]}")
 
 
